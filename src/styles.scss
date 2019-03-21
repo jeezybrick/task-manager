@@ -8,12 +8,25 @@ $custom-typography: mat-typography-config(
     $font-family: 'Exo'
 );
 
+html,
+body {
+  height: 100%;
+}
+
 @include mat-core($custom-typography);
 
 body {
-  background-color: #f4f3f3;
   margin: 0;
-  app-root * {
-    font-family: 'Exo', sans-serif;
-  }
+}
+
+.mat-drawer-content {
+  background-color: #f1c8a4;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.card-dialog {
+  width: 800px;
 }

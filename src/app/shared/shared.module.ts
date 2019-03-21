@@ -2,7 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { CdkTableModule } from '@angular/cdk/table';
+import { CdkTreeModule } from '@angular/cdk/tree';
 import {
   MatToolbarModule,
   MatMenuModule,
@@ -21,6 +24,25 @@ import {
   MatProgressBarModule,
   MatFormFieldModule,
   MatSelectModule,
+  MatAutocompleteModule,
+  MatBadgeModule,
+  MatBottomSheetModule,
+  MatButtonToggleModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatDatepickerModule,
+  MatGridListModule,
+  MatNativeDateModule,
+  MatPaginatorModule,
+  MatProgressSpinnerModule,
+  MatRadioModule,
+  MatRippleModule,
+  MatSliderModule,
+  MatSlideToggleModule,
+  MatSortModule,
+  MatStepperModule,
+  MatTableModule,
+  MatTooltipModule
 } from '@angular/material';
 
 @NgModule({
@@ -46,6 +68,25 @@ import {
     MatFormFieldModule,
     MatSelectModule,
     FlexLayoutModule,
+    MatAutocompleteModule,
+    MatBadgeModule,
+    MatBottomSheetModule,
+    MatButtonToggleModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatDatepickerModule,
+    MatGridListModule,
+    MatNativeDateModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatRadioModule,
+    MatRippleModule,
+    MatSliderModule,
+    MatSlideToggleModule,
+    MatSortModule,
+    MatStepperModule,
+    MatTableModule,
+    MatTooltipModule
   ],
   exports: [
     MatToolbarModule,
@@ -68,7 +109,31 @@ import {
     MatFormFieldModule,
     MatSelectModule,
     FlexLayoutModule,
+    CdkTableModule,
+    CdkTreeModule,
+    DragDropModule,
+    MatAutocompleteModule,
+    MatBadgeModule,
+    MatBottomSheetModule,
+    MatButtonToggleModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatStepperModule,
+    MatDatepickerModule,
+    MatGridListModule,
+    MatNativeDateModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatRadioModule,
+    MatRippleModule,
+    MatSliderModule,
+    MatSlideToggleModule,
+    MatSortModule,
+    MatTableModule,
+    MatTooltipModule,
+    ScrollingModule
   ],
   declarations: [],
 })
-export class SharedModule { }
+export class SharedModule {
+}
