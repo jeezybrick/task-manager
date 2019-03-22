@@ -1,0 +1,35 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const BoardSchema = Schema({
+  user: { type: Schema.Types.ObjectId, ref: 'User', required: true},
+  columns: [{ type: Schema.Types.ObjectId, ref: 'Column' }],
+  name: {
+    type: String,
+    required: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+// запускается когда удаляется доска,
+// pre - значит перед тем, каке удалить с БД. Еще есть post - это после
+BoardSchema.pre('remove', async function (next) {
+
+  console.log('BoardSchema.pre');
+
+  try {
+    // удаляем дочерние колонки
+    await mongoose.model('Column').remove({board: this._id}).exec();
+    next();
+
+  } catch(err) {
+     next(err);
+  }
+
+});
+
+
+module.exports = mongoose.model('Board', BoardSchema);

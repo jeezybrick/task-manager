@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
     private domSanitizer: DomSanitizer,
     private matIconRegistry: MatIconRegistry
   ) {
-    this.registerSvgIcons()
+    this.registerSvgIcons();
   }
 
   public ngOnInit() {
@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
     this.router.navigate([link]);
   }
 
-  ngOnDestroy() { 
+  ngOnDestroy() {
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
     }

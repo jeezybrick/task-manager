@@ -1,0 +1,68 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async) ? 'over' : 'side'"
+               [opened]="!(isHandset$ | async)">
+    <mat-toolbar *ngIf="user">
+      <a [routerLink]="['boards']">Доски</a>
+      <button mat-icon-button>
+        <mat-icon aria-label="Добавить доску" (click)="goToCreateBoardPage()">add</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <ng-container *ngIf="isBoardsDeleteProcess">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </ng-container>
+
+    <mat-nav-list *ngIf="user">
+      <a class="board-link"
+         mat-list-item
+         [routerLink]="['boards', board._id]"
+         routerLinkActive="active"
+         *ngFor="let board of (boardList | async)">
+        {{ board.name }}
+        <mat-icon matListIcon (click)="deleteBoard($event, board._id)">delete</mat-icon>
+      </a>
+
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+
+      <div class="toolbar-wrapper">
+
+        <span>{{ title }}</span>
+
+        <div *ngIf="user">
+
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>person</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item disabled>
+              <mat-icon>build</mat-icon>
+              <span>Настроки</span>
+            </button>
+            <button mat-menu-item (click)="logout()">
+              <mat-icon>exit_to_app</mat-icon>
+              <span>Выйти</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+    </mat-toolbar>
+
+    <div class="main-content">
+      <ng-content></ng-content>
+   </div>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

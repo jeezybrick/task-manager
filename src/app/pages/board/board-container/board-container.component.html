@@ -1,0 +1,32 @@
+<div class="column-loader" *ngIf="isBoardLoading">
+  <mat-spinner mode="indeterminate"></mat-spinner>
+</div>
+
+<!-- cdkDropListGroup оборачиваем этой директивой для драг энд дропа-->
+<div class="column-wrapper" cdkDropListGroup *ngIf="!isBoardLoading">
+
+  <!-- *ngFor - это цикл для перебора колонок -->
+  <app-board-column *ngFor="let item of columns"
+                    [column]="item"
+                    [isCardPositionChangeProcess]="isCardPositionChangeProcess"
+                    (cardMoved)="onCardMoved($event)"
+                    (columnDeleted)="onRemoveColumn($event)">
+  </app-board-column>
+
+  <!--добавление колонки-->
+  <mat-card class="add-column-card">
+    <mat-card-content>
+      <mat-form-field>
+        <input matInput placeholder="Имя колонки" [(ngModel)]="columnName">
+      </mat-form-field>
+
+      <div>
+        <button mat-raised-button color="primary" (click)="addColumn()" [disabled]="!columnName.length">Добавить
+        </button>
+      </div>
+
+    </mat-card-content>
+
+  </mat-card>
+
+</div>

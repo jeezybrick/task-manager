@@ -1,0 +1,14 @@
+/*стиль для компонента*/
+:host {
+  display: block;
+  position: relative;
+  margin-top: 10px;
+  cursor: pointer;
+}
+/*стиль для иконки удаления*/
+.remove-icon {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+}
