@@ -5,7 +5,7 @@
   </button>
 </div>
 
-<ng-container *ngIf="!isBoardsListLoading && boards.length">
+<ng-container *ngIf="!isBoardsListLoading && boards && boards.length">
   <mat-list>
     <mat-list-item class="board-item" *ngFor="let board of boards" (click)="goToBoardPage(board._id)">
       <mat-icon mat-list-icon class="delete-icon" (click)="deleteBoard($event, board._id)">delete</mat-icon>

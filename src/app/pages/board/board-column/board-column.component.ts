@@ -77,11 +77,7 @@ export class BoardColumnComponent implements OnInit {
         this.cardService.deleteCard(cardId)
           .pipe(finalize(() => setTimeout(() => {this.isDeleteCardProcess = false; }, 500)))
           .subscribe((response) => {
-            const index = this.column.cards.findIndex((item) => item._id === cardId);
-
-            if (index > -1) {
-              this.column.cards.splice(index, 1);
-            }
+            this.column.cards = response;
           });
       }
     });

@@ -105,8 +105,8 @@ async function updateCardPosition(req, res) {
 
 
     // сдвигаем и сохраняем позиции для карточек преыущей и текущей колонки
-    await offsetPosition(previousColumnCards);
-    await offsetPosition(currentColumnCards, false);
+    await offsetPosition(card, previousColumnCards, req.body.currentIndex);
+    await offsetPosition(card, currentColumnCards, req.body.currentIndex, false);
 
     // если перемещаем в одной колонке
   } else {
@@ -119,7 +119,7 @@ async function updateCardPosition(req, res) {
         .lte(req.body.currentIndex)
         .gte(req.body.previousIndex).exec();
 
-      await offsetPosition(currentColumnCards);
+      await offsetPosition(card, currentColumnCards, req.body.currentIndex);
     } else {
       // если мы переместили карточку вверх - находим карточку ниже текущего положения и выше старого их сдвигаем вниз
       currentColumnCards = await Card.find({column: req.body.currentColumnId})
@@ -127,28 +127,9 @@ async function updateCardPosition(req, res) {
         .gte(req.body.currentIndex)
         .lte(req.body.previousIndex).exec();
 
-      await offsetPosition(currentColumnCards, false);
+      await offsetPosition(card, currentColumnCards, req.body.currentIndex, false);
     }
   }
-  // функция изменения позиции карточки
-  async function offsetPosition(array, toDown = true) {
-
-    // перебор карточек
-    for (const item of array) {
-
-      // если toDown - true - сдвигаем карточки вверх. в обратном случае - вниз
-      toDown ? item.position = item.position - 1 : item.position = item.position + 1;
-
-      // если находим текущую карточку - ставим позицию с фронт энда
-      if (item._id.toString() === card._id.toString()) {
-        item.position = req.body.currentIndex;
-      }
-
-      // сохраняем карточку
-      await item.save();
-    }
-  }
-
   // вытаскиваем колонки
   const columns = await Column.find({ owner: req.user._id, board: currentColumn.board}).populate({ path: 'cards', options: { sort: 'position' }}).exec();
 
@@ -164,12 +145,46 @@ async function removeCard(req, res) {
   // вытаскиваем деталь карточки с БД вместе с ее владельцем
   const card = await Card.findById({_id: req.params.cardId}).populate('owner');
 
-  // проверяем является ли пользователь владельцем колонки и удаляем если да
-  await utils.userIsOwnerAndRemoveItem(card.owner, req.user, card, res);
+  // проверяем является ли пользователь владельцем колонки
+  if (!utils.isUserOwner(card.owner, req.user)) {
+    res.status(403).send({message: utils.getAuthErrorMessage()});
+    return;
+  }
+
+  // удаляем карточку
+  await card.remove();
+
+  // сдвигаем вверх (уменьшаем позиции на минус 1) и сохраняем позиции для карточек колонки
+  const columnBeyondCards = await Card.find({column: card.column}).where('position').gt(card.position).exec();
+  await offsetPosition(card, columnBeyondCards);
 
   // удаляем ID карточки в массива карточек родительской колонки
   await Column.findOneAndUpdate({_id: card.column}, {$pull: {cards: card._id}});
 
+  const columnCards = await Card.find({column: card.column}).sort('position').exec();
+
+  // возвращаем карточки
+  res.json(columnCards);
+
+}
+
+// функция изменения позиции карточки
+async function offsetPosition(item, array, currentIndex = null, toDown = true) {
+
+  // перебор карточек
+  for (const arrayItem of array) {
+
+    // если toDown - true - сдвигаем карточки вверх. в обратном случае - вниз
+    toDown ? arrayItem.position = arrayItem.position - 1 : arrayItem.position = arrayItem.position + 1;
+
+    // если находим текущую карточку - ставим позицию с фронт энда
+    if (arrayItem._id.toString() === item._id.toString() && currentIndex) {
+      arrayItem.position = currentIndex;
+    }
+
+    // сохраняем карточку
+    await arrayItem.save();
+  }
 }
 
 // экспортируем функции для того,

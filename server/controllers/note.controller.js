@@ -11,11 +11,20 @@ async function removeNote(req, res) {
   // вытаскиваем с БД заметку вместе с ее владельцем
   const note = await Note.findById({_id: req.params.noteId}).populate('owner');
 
-  // проверяем является ли пользователь владельцем заметки и удаляем если да
-  await utils.userIsOwnerAndRemoveItem(note.owner, req.user, note, res);
+  // проверяем является ли пользователь владельцем заметки
+  if (!utils.isUserOwner(note.owner, req.user)) {
+    res.status(403).send({message: utils.getAuthErrorMessage()});
+    return;
+  }
 
-  // удаляем ID карточки в массива карточек родительской колонки
+  // удаляем заметку
+  await note.remove();
+
+  // удаляем ID заметки в массива заметок родительской карточки
   await Card.findOneAndUpdate({_id: note.card}, {$pull: {notes: note._id}});
+
+  // возвращаем удаленную заметку
+  res.json(note);
 
 }
 

@@ -24,9 +24,6 @@ CardSchema.pre('remove', { document: true, query: true }, async function (next) 
 
   console.log('CardSchema.pre');
 
-  console.log(this._id);
-  console.log(this.column);
-
   try {
     mongoose.model('Note').remove({card: this._id}).exec();
     await mongoose.model('Column').findOneAndUpdate(

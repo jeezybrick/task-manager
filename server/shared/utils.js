@@ -9,7 +9,7 @@ function checkIsAuthenticated(req, res) {
 }
 
 // проверка является ли пользователь владельцем доски/колонки/карточки/заметки и удаляем если да
-async function userIsOwnerAndRemoveItem(itemOwner, authUser, item, res) {
+function isUserOwner(itemOwner, authUser) {
 
   // сохраняем в переменную ID владельца доски
   const boardOwnerId = itemOwner._id.toString();
@@ -18,13 +18,11 @@ async function userIsOwnerAndRemoveItem(itemOwner, authUser, item, res) {
   const authUserId = authUser._id.toString();
 
   // сравниваем ID текущего пользователя и ID владельца доски
-  // если совпадают - вызываем метод remove(удаление с БД)
-  if (boardOwnerId === authUserId) {
-    await item.remove();
-    res.send({message: 'Успешно удалено'});
-  } else {
-    res.status(403).send({message: authErrorMessage});
-  }
+  return boardOwnerId === authUserId
+}
+
+function getAuthErrorMessage() {
+  return authErrorMessage;
 }
 
 
@@ -32,5 +30,6 @@ async function userIsOwnerAndRemoveItem(itemOwner, authUser, item, res) {
 // чтобы импортировать их и использовать в других файлах, например в роутинге
 module.exports = {
   checkIsAuthenticated,
-  userIsOwnerAndRemoveItem
+  isUserOwner,
+  getAuthErrorMessage
 };

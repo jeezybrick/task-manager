@@ -3,9 +3,9 @@
 }
 
 .add-board-button-wrapper {
-  position: absolute;
+  position: fixed;
   right: 5%;
-  top: -48px;
+  bottom: 50px;
   z-index: 9;
 
   button {

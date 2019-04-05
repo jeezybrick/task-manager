@@ -80,8 +80,17 @@ async function removeBoard (req, res) {
   // вытаскиваем деталь доски с БД вместе с юзером
   const board = await Board.findById({_id: req.params.boardId}).populate('user');
 
-  // проверяем является ли пользователь владельцем доски и удаляем если да
-  await utils.userIsOwnerAndRemoveItem(board.user, req.user, board, res);
+  // проверяем является ли пользователь владельцем доски
+  if (!utils.isUserOwner(board.user, req.user)) {
+    res.status(403).send({message: utils.getAuthErrorMessage()});
+    return;
+  }
+
+  // удаляем доску
+  await board.remove();
+
+  // возвращаем удаленную доску
+  res.json(board);
 
 }
 

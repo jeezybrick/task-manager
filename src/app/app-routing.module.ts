@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '../auth/auth-guard.service';
-import { HomeComponent } from '../home/home.component';
+import { AuthGuard } from './guards/auth/auth-guard.service';
+import { AlreadyAuthGuard } from './guards/auth/already-auth.guard';
 
 // роутинг
 const routes: Routes = [
@@ -12,17 +12,19 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   }, {
     path: 'auth',
-    loadChildren: 'app/auth/auth.module#AuthModule'
+    loadChildren: 'app/pages/auth/auth.module#AuthModule',
+    canActivate: [AlreadyAuthGuard]
   }, {
     path: 'admin',
-    loadChildren: 'app/admin/admin.module#AdminModule'
+    loadChildren: 'app/pages/admin/admin.module#AdminModule',
+    canActivate: [AuthGuard]
   }];
 
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [AuthGuard],
+  providers: [AuthGuard, AlreadyAuthGuard],
   declarations: []
 })
 

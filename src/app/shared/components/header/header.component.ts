@@ -1,21 +1,21 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ActivatedRoute, NavigationEnd, Router, RoutesRecognized } from '@angular/router';
-import { Board } from '../models/board.model';
-import { BoardService } from '../shared/services/board.service';
+import { Board } from '../../../models/board.model';
+import { BoardService } from '../../services/board.service';
 import { filter, finalize, mergeMap } from 'rxjs/internal/operators';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../../../pages/auth/auth.service';
 import { MatDialog } from '@angular/material';
-import { AreYouSureDialogComponent } from '../shared/components/are-you-sure-dialog/are-you-sure-dialog.component';
+import { AreYouSureDialogComponent } from '../are-you-sure-dialog/are-you-sure-dialog.component';
 
 @Component({
-  selector: 'app-main-nav',
-  templateUrl: './main-nav.component.html',
-  styleUrls: ['./main-nav.component.css']
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css']
 })
-export class MainNavComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
   public boardList: Observable<Board[]>;
   public activeBoard: Observable<Board>;
@@ -24,7 +24,7 @@ export class MainNavComponent implements OnInit {
   public sortBoardDirection = '1';
   public isBoardsDeleteProcess = false;
 
-  @Input() public user: any;
+  public user: any;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -40,8 +40,23 @@ export class MainNavComponent implements OnInit {
 
   public ngOnInit() {
 
+    console.log('ngOnInit header');
+
+    // init this.user on startup
+    this.authService.me().subscribe(data => {
+      this.user = data.user;
+    });
+
+    this.authService.getUser().subscribe((user) => {
+      this.user = user;
+    });
+
     this.setTitle();
     this.boardList = this.boardService.getActiveBoardsList();
+  }
+
+  public ngOnDestroy() {
+    console.log('ngOnDestroy');
   }
 
   get isBoardPage(): boolean {

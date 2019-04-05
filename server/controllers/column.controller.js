@@ -31,9 +31,6 @@ async function createCard (req, res) {
   // вытаскиваем с БД колонку, которой будет принадлежать карточка
   const column = await Column.findById(req.params.columnId);
 
-  console.log(column.cards);
-  console.log(column.cards.length);
-
   // сохраняем в переменную данные с фронт энда + владельца карточки и ее колонку
   // позиция = общему количеству карточек + 1
   const cardData = {
@@ -66,11 +63,20 @@ async function removeColumn (req, res) {
   // вытаскиваем деталь колонки с БД вместе с ее владельцем
   const column = await Column.findById({_id: req.params.columnId}).populate('owner');
 
-  // проверяем является ли пользователь владельцем колонки и удаляем если да
-  await utils.userIsOwnerAndRemoveItem(column.owner, req.user, column, res);
+  // проверяем является ли пользователь владельцем колонки
+  if (!utils.isUserOwner(column.owner, req.user)) {
+    res.status(403).send({message: utils.getAuthErrorMessage()});
+    return;
+  }
+
+  // удаляем заметку
+  await column.remove();
 
   // удаляем ID колонки в массива колонок родительской доски
   await Board.findOneAndUpdate({_id: column.board}, {$pull: {columns: column._id}});
+
+  // возвращаем удаленную колонок
+  res.json(column);
 
 }
 
