@@ -18,7 +18,6 @@ function getBoards(req, res) {
       populate: {path: 'cards', options: {sort: 'position'}}
     })
     .sort([[req.query.sortBy, req.query.sortDirection]])
-    .pretty()
     .exec((err, boards) => {
     if (err) {
       res.status(404).send({message: errorMessage});
