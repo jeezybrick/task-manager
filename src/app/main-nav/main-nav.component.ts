@@ -20,6 +20,8 @@ export class MainNavComponent implements OnInit {
   public boardList: Observable<Board[]>;
   public activeBoard: Observable<Board>;
   public title = '';
+  public sortBoardBy = 'createdAt';
+  public sortBoardDirection = '1';
   public isBoardsDeleteProcess = false;
 
   @Input() public user: any;
@@ -42,13 +44,33 @@ export class MainNavComponent implements OnInit {
     this.boardList = this.boardService.getActiveBoardsList();
   }
 
+  get isBoardPage(): boolean {
+    return this.router.url === '/boards';
+  }
+
   public goToCreateBoardPage(): void {
     this.router.navigate(['boards/create']);
+  }
+
+  public goToBoardsPage(): void {
+    this.router.navigate(['boards']);
   }
 
   public logout(): void {
     this.authService.signOut();
     this.router.navigate(['/auth/login']);
+  }
+
+  public sortBoard(sortBy): void {
+
+    if (this.sortBoardBy === sortBy) {
+      this.sortBoardDirection =  this.sortBoardDirection === '1' ? '-1' : '1';
+    } else {
+      this.sortBoardDirection = '1';
+    }
+
+    this.sortBoardBy = sortBy;
+    this.boardService.getBoards(sortBy, this.sortBoardDirection).subscribe();
   }
 
   public deleteBoard(event: Event, boardId: string): void {

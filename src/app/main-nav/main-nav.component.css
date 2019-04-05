@@ -7,7 +7,7 @@
 }
 
 .sidenav .mat-toolbar {
-  background: inherit;
+  background: transparent !important;
 }
 
 .mat-toolbar.mat-primary {
@@ -29,4 +29,9 @@
 
 .main-content {
   padding: 20px;
+}
+
+.title-wrapper {
+  display: flex;
+  align-items: center;
 }

@@ -12,7 +12,14 @@ function getBoards(req, res) {
 
   // Вытаскиваем с БД список досок текущего пользователя
   // exec -- exucution -выполнение запроса в БД
-  Board.find({ user: req.user._id }).exec((err, boards) => {
+  Board.find({ user: req.user._id })
+    .populate({
+      path: 'columns',
+      populate: {path: 'cards', options: {sort: 'position'}}
+    })
+    .sort([[req.query.sortBy, req.query.sortDirection]])
+    .pretty()
+    .exec((err, boards) => {
     if (err) {
       res.status(404).send({message: errorMessage});
     }

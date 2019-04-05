@@ -10,11 +10,11 @@ import { MatDialog } from '@angular/material';
 import { AreYouSureDialogComponent } from '../../../shared/components/are-you-sure-dialog/are-you-sure-dialog.component';
 
 @Component({
-  selector: 'app-board-container',
-  templateUrl: './board-container.component.html',
-  styleUrls: ['./board-container.component.scss']
+  selector: 'app-board-detail',
+  templateUrl: './board-detail.component.html',
+  styleUrls: ['./board-detail.component.scss']
 })
-export class BoardContainerComponent implements OnInit {
+export class BoardDetailComponent implements OnInit {
 
   public board: Board;
   public columnName = '';

@@ -4,7 +4,7 @@
                [mode]="(isHandset$ | async) ? 'over' : 'side'"
                [opened]="!(isHandset$ | async)">
     <mat-toolbar *ngIf="user">
-      <a [routerLink]="['boards']">Доски</a>
+      <button mat-button style="font-size: 1.4rem;" (click)="goToBoardsPage()">Доски</button>
       <button mat-icon-button>
         <mat-icon aria-label="Добавить доску" (click)="goToCreateBoardPage()">add</mat-icon>
       </button>
@@ -39,7 +39,26 @@
 
       <div class="toolbar-wrapper">
 
-        <span>{{ title }}</span>
+        <div class="title-wrapper">{{ title }}
+
+          <ng-container *ngIf="isBoardPage">
+            <button mat-icon-button aria-label="Сортировка" [matMenuTriggerFor]="sortMenu">
+              <mat-icon>sort</mat-icon>
+            </button>
+            <mat-menu #sortMenu="matMenu">
+              <button mat-menu-item (click)="sortBoard('name')">
+                <span>название</span>
+              </button>
+              <button mat-menu-item (click)="sortBoard('createdAt')">
+                <span>дата</span>
+              </button>
+              <button mat-menu-item (click)="sortBoard('columns.cards')">
+                <span>кол. карточек</span>
+              </button>
+            </mat-menu>
+          </ng-container>
+
+        </div>
 
         <div *ngIf="user">
 
