@@ -5,11 +5,12 @@ import { Subject } from 'rxjs/Subject';
 
 import { TokenStorage } from './token.storage';
 import { TooltipComponent } from '@angular/material';
+import { BoardService } from '../shared/services/board.service';
 
 @Injectable()
 export class AuthService {
 
-  constructor(private http : HttpClient, private token: TokenStorage) {}
+  constructor(private http : HttpClient, private token: TokenStorage, private boardService: BoardService) {}
 
   public $userSource = new Subject<any>();
 
@@ -68,6 +69,7 @@ export class AuthService {
   signOut(): void {
     this.token.signOut();
     this.setUser(null);
+    this.boardService.setActiveBoardsList(null);
     delete (<any>window).user;
   }
 }

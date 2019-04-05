@@ -15,12 +15,16 @@ import { CatchErrorInterceptor } from './interceptors/http-error.interceptor';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
+import { MainNavComponent } from './main-nav/main-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     HomeComponent,
+    MainNavComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,6 +35,12 @@ import { HomeComponent } from './home/home.component';
     AuthModule,
     AdminModule,
     AppRoutingModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
