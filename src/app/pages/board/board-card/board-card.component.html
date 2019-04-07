@@ -1,0 +1,25 @@
+<!--карточка-->
+<mat-card>
+  <mat-card-content>
+
+    <div class="main-content">
+      <span> {{ card.name }}</span>
+    </div>
+
+    <div class="side-content">
+
+      <div class="note-icon-wrap">
+        <mat-icon>chat_bubble_outline</mat-icon>
+        <span>{{ card.notes.length }}</span>
+      </div>
+
+      <!--удаление карточки-->
+      <button class="remove-button" mat-icon-button (click)="removeCard($event)">
+        <mat-icon aria-label="Удалить карточку">delete</mat-icon>
+      </button>
+
+    </div>
+
+  </mat-card-content>
+
+</mat-card>

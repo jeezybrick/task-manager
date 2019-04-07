@@ -1,0 +1,34 @@
+<div class="boards-list-wrapper">
+  <div class="add-board-button-wrapper">
+  <button mat-fab color="accent" (click)="goToCreateBoardPage()">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
+<ng-container *ngIf="!isBoardsListLoading && boards && boards.length">
+  <mat-list>
+    <mat-list-item class="board-item" *ngFor="let board of boards" (click)="goToBoardPage(board._id)">
+      <mat-icon mat-list-icon class="delete-icon" (click)="deleteBoard($event, board._id)">delete</mat-icon>
+      <h4 mat-line>{{ board.name }}</h4>
+      <p mat-line> {{board.createdAt | date}} </p>
+      <mat-divider></mat-divider>
+    </mat-list-item>
+  </mat-list>
+
+</ng-container>
+<!--
+
+<ng-container *ngIf="!isBoardsListLoading && !boards.length">
+  <h3>
+    Досок пока что нет :( <br>
+  Создайте ее прямо сейчас! ;)<br>
+  </h3>
+  <button mat-raised-button color="primary" (click)="goToCreateBoardPage()">Создать доску</button>
+</ng-container>
+-->
+
+<ng-container *ngIf="isBoardsListLoading || isBoardsDeleteProcess">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-container>
+
+</div>

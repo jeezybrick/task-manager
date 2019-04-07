@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const User = require('./user.model');
-const Board = require('./board.model');
-const Column = require('./column.model');
 const Note = require('./note.model');
 const Schema = mongoose.Schema;
 
@@ -22,12 +20,12 @@ const CardSchema = Schema({
   }
 });
 
-CardSchema.pre('remove', async function (next) {
+CardSchema.pre('remove', { document: true, query: true }, async function (next) {
 
   console.log('CardSchema.pre');
 
   try {
-    await Note.remove({card: this._id}).exec();
+    mongoose.model('Note').remove({card: this._id}).exec();
     await mongoose.model('Column').findOneAndUpdate(
       {_id: this.column},
       {$pull: {cards: {_id: this._id}}});

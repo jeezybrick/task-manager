@@ -1,0 +1,45 @@
+<div class="close-icon-wrapper">
+  <button class="close-icon" mat-icon-button mat-dialog-close>
+    <mat-icon aria-label="Закрыть диалог">close</mat-icon>
+  </button>
+</div>
+
+<h4>{{ data.card.name }}</h4>
+
+<div>
+  <mat-form-field>
+    <textarea matInput placeholder="Добавить заметку" [(ngModel)]="noteName"></textarea>
+  </mat-form-field>
+
+  <div>
+    <button mat-raised-button color="primary" (click)="addNote()" [disabled]="!noteName.length || isCreateNoteProcess">Добавить
+    </button>
+  </div>
+</div>
+
+<div *ngIf="isNotesLoading || isCreateNoteProcess || isDeleteNoteProcess" style="margin: 5px 0;">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
+<div style="    max-height: 500px;
+    overflow-y: auto;">
+
+  <mat-card class="notes-card" *ngFor="let note of notes">
+    <mat-card-actions class="card-actions" style="    display: flex;
+    justify-content: space-between;
+    align-items: center;margin-bottom: 0;">
+      <span style="font-size: 12px;
+    color: #a2a2a2;">{{ note.createdAt | date: 'medium' }}</span>
+      <button class="" mat-icon-button (click)="removeNote(note._id)">
+        <mat-icon aria-label="Удалить заметку">delete</mat-icon>
+      </button>
+    </mat-card-actions>
+    <mat-card-content>
+      <p style="word-break: break-all;">
+        {{ note.name }}
+      </p>
+    </mat-card-content>
+
+  </mat-card>
+
+</div>

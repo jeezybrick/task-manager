@@ -1,0 +1,38 @@
+.column-wrapper {
+  display: flex;
+  padding: 30px;
+  overflow-x: auto;
+
+  // применяется ко всем дочерним элементам
+  > * {
+    margin-right: 20px;
+  }
+}
+
+.add-column-card {
+  background-color: #e0e0e6;
+  max-height: 132px;
+}
+
+.column-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  margin-left: -50px;
+  margin-top: -50px;
+}
+
+.loader {
+  position: absolute;
+  display: flex;
+  top: 0;
+  justify-content: center;
+  align-items: center;
+  left: 0;
+  right: 0;
+  border: 0;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, .2);
+}

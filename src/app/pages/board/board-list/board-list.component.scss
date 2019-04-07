@@ -1,0 +1,29 @@
+.boards-list-wrapper {
+  position: relative;
+}
+
+.add-board-button-wrapper {
+  position: fixed;
+  right: 5%;
+  bottom: 50px;
+  z-index: 9;
+
+  button {
+    background-color: #ffffff;
+  }
+}
+
+.delete-icon {
+  cursor: pointer;
+}
+
+.board-item {
+  cursor: pointer;
+
+  &:hover {
+    .mat-divider {
+      border-top-color: rgba(0, 0, 0, .42);
+    }
+  }
+
+}

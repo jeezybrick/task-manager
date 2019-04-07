@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Column = require('../models/column.model');
 const Schema = mongoose.Schema;
 
 const BoardSchema = Schema({
@@ -15,23 +14,14 @@ const BoardSchema = Schema({
   }
 });
 
-/*
-BoardSchema.virtual('columns', {
-  ref: 'Column', // The model to use
-  localField: 'name', // Find people where `localField`
-  foreignField: 'name', // is equal to `foreignField`
-  // If `justOne` is true, 'members' will be a single doc as opposed to
-  // an array. `justOne` is false by default.
-  justOne: true,
-  options: { sort: { name: -1 } }
-});
-*/
-
+// запускается когда удаляется доска,
+// pre - значит перед тем, каке удалить с БД. Еще есть post - это после
 BoardSchema.pre('remove', async function (next) {
 
   console.log('BoardSchema.pre');
 
   try {
+    // удаляем дочерние колонки
     await mongoose.model('Column').remove({board: this._id}).exec();
     next();
 

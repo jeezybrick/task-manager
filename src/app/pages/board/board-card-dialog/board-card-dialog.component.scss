@@ -1,0 +1,19 @@
+.mat-icon {
+  cursor: pointer;
+}
+
+.close-icon-wrapper {
+  position: relative;
+
+  .close-icon {
+    position: absolute;
+    top: -35px;
+    right: -15px;
+  }
+}
+
+
+.notes-card {
+  margin-top: 5px;
+  padding-top: 0;
+}

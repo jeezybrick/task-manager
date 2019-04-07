@@ -1,0 +1,23 @@
+<mat-card class="create-board-card">
+  <div class="">
+    <div>
+
+      <mat-form-field>
+        <input matInput placeholder="Имя доски" [(ngModel)]="boardName">
+      </mat-form-field>
+
+      <button mat-raised-button
+              color="primary"
+              (click)="createBoard()"
+              [disabled]="!boardName.length || isBoardCreateProcess">
+        Создать доску
+      </button>
+
+    </div>
+
+    <ng-container *ngIf="isBoardCreateProcess">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </ng-container>
+
+  </div>
+</mat-card>

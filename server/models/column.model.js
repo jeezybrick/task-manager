@@ -17,12 +17,17 @@ const ColumnSchema = Schema({
   }
 });
 
+// запускается когда удаляется колонка,
+// pre - значит перед тем, каке удалить с БД. Еще есть post - это после
 ColumnSchema.pre('remove', { document: true, query: true }, async function (next) {
 
   console.log('ColumnSchema.pre');
 
   try {
-     await Card.remove({column: this._id}).exec();
+    // удаляем дочерние карточки
+     await mongoose.model('Card').remove({column: this._id}).exec();
+
+     // удаляем колонку с массивка колонок родительской доски
      await mongoose.model('Board').findOneAndUpdate({_id: this.board}, {$pull: {columns: this._id}});
     next();
   } catch(err) {

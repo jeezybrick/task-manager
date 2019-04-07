@@ -1,0 +1,37 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: transparent !important;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.board-link.active {
+  font-weight: bold;
+}
+
+.toolbar-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main-content {
+  padding: 20px;
+}
+
+.title-wrapper {
+  display: flex;
+  align-items: center;
+}

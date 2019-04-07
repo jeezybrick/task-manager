@@ -1,0 +1,39 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>{{ column.name }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <span class="remove-icon" (click)="removeColumn()"><mat-icon>delete</mat-icon></span>
+    <mat-form-field>
+      <input matInput placeholder="Имя карточки" [(ngModel)]="cardName">
+    </mat-form-field>
+
+    <div>
+      <button mat-raised-button color="primary" (click)="addCard()" [disabled]="!cardName.length || isCreateCardProcess">Добавить
+      </button>
+    </div>
+
+    <div *ngIf="isCreateCardProcess || isDeleteCardProcess || isCardPositionChangeProcess" style="margin: 5px 0;">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+
+    <!--
+      cdkDropList - директива для списка перетаскивания
+      cardMoved сработает когда перетащим карточку
+    -->
+    <div *ngIf="!isCardPositionChangeProcess"
+         class="example-list"
+         cdkDropList
+         [cdkDropListData]="column"
+         (cdkDropListDropped)="cardMove($event)">
+      <app-board-card *ngFor="let item of column.cards "
+                      (click)="openCardDialog(item)"
+                      [card]="item"
+                      cdkDrag
+                      [cdkDragData]="item"
+                      (cardDeleted)="onCardDeleted($event)"></app-board-card>
+    </div>
+
+
+  </mat-card-content>
+</mat-card>

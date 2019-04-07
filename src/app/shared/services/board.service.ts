@@ -19,8 +19,8 @@ export class BoardService {
     this.getBoards().subscribe();
   }
 
-  public getBoards(): any {
-    return this.http.get<Board[]>('/api/boards').pipe(
+  public getBoards(sortBy = 'createdAt', sortDirection = '1'): any {
+    return this.http.get<Board[]>('/api/boards', {params: {sortBy, sortDirection}}).pipe(
       tap((boards: Board[]) => {
         this.boards = boards;
         this.boards$.next(this.boards);

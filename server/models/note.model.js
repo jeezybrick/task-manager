@@ -17,6 +17,8 @@ const NoteSchema = Schema({
 
 NoteSchema.pre('remove',{ document: true, query: true }, async function (next) {
 
+  console.log('NoteSchema.pre');
+
   try {
     await mongoose.model('Card').findOneAndUpdate(
       {_id: this.card},
