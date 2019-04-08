@@ -20,7 +20,7 @@ const envVarsSchema = Joi.object({
     .default('0a6b944d-d2fb-46fc-a85e-0295c986cd9f')
     .description('JWT Secret required to sign'),
   MONGO_HOST: Joi.string()
-    .default('mongodb://jeezybrick:j111111@ds115874.mlab.com:15874/heroku_gx9dv4x5')
+    .default('mongodb://admin:j111111@ds115874.mlab.com:15874/heroku_gx9dv4x5')
     .description('Mongo DB host url'),
   MONGO_PORT: Joi.number()
     .default(15874)
