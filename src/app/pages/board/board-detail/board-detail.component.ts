@@ -92,9 +92,8 @@ export class BoardDetailComponent implements OnInit, OnDestroy {
       indexPreviousColumn = indexCurrentColumn;
     }
 
-    card = this.columns[indexPreviousColumn].splice(data.previousIndex, 1)[0];
-    this.columns[indexCurrentColumn].splice(data.currentIndex, 0, card);
-
+    card = this.columns[indexPreviousColumn].cards.splice(data.previousIndex - 1, 1)[0];
+    this.columns[indexCurrentColumn].cards.splice(data.currentIndex - 1, 0, card);
 
     // this.isCardPositionChangeProcess = true;
 
