@@ -9,7 +9,7 @@ async function updateNote(req, res) {
   utils.checkIsAuthenticated(req, res);
 
   // вытаскиваем с БД заметку вместе с ее владельцем
-  const note = await Note.findById({_id: req.params.noteId}).populate('owner');
+  const note = await Note.findById({_id: req.params.noteId}).populate('owner').exec();
 
   // проверяем является ли пользователь владельцем заметки
   if (!utils.isUserOwner(note.owner, req.user)) {
@@ -18,7 +18,7 @@ async function updateNote(req, res) {
   }
 
   // сохраняем в переменную данные с фронт энда + владельца заметки
-  const noteData = {...note, ...req.body, owner: req.user._id};
+  const noteData = Object.assign(note, req.body, {owner: req.user._id});
 
   // засовываем данные в модель
   const newNote = new Note(noteData);

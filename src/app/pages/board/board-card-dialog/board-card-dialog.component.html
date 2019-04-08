@@ -29,13 +29,19 @@
       <span class="date">{{ note.createdAt | date: 'medium' }}</span>
 
       <span class="actions">
-        <button class="" mat-icon-button (click)="toggleFavoriteNote(note._id)">
+
+        <button *ngIf="!note.favorite" mat-icon-button (click)="toggleFavoriteNote(note)">
           <mat-icon aria-label="Сделать заметку избранной">favorite_border</mat-icon>
+        </button>
+
+         <button *ngIf="note.favorite"  mat-icon-button (click)="toggleFavoriteNote(note)">
+          <mat-icon aria-label="Убрать заметку с избранных">favorite</mat-icon>
         </button>
 
         <button class="" mat-icon-button (click)="removeNote(note._id)">
           <mat-icon aria-label="Удалить заметку">delete</mat-icon>
         </button>
+
       </span>
 
     </mat-card-actions>

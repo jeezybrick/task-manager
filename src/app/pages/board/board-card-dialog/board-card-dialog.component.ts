@@ -17,6 +17,7 @@ export class BoardCardDialogComponent implements OnInit {
   public isNotesLoading = true;
   public isCreateNoteProcess = false;
   public isDeleteNoteProcess = false;
+  public isUpdateNoteProcess = false;
 
   // получаем данные с выбранной карточки из компонента колонок
   constructor(public dialogRef: MatDialogRef<BoardCardDialogComponent>,
@@ -112,14 +113,21 @@ export class BoardCardDialogComponent implements OnInit {
 
   public toggleFavoriteNote(note: Note): void {
 
-    this.isDeleteNoteProcess = true;
+    if (this.isUpdateNoteProcess) {
+      return;
+    }
+
+    note.favorite = !note.favorite;
+
+    this.isUpdateNoteProcess = true;
     const data = {
       'favorite': !note.favorite
     };
 
     this.noteService.updateNote(note._id, data)
       .subscribe((response: any) => {
-        this.isDeleteNoteProcess = false;
+        note = response;
+        this.isUpdateNoteProcess = false;
       });
   }
 
