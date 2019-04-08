@@ -34,7 +34,7 @@ export class BoardCardDialogComponent implements OnInit {
       setTimeout(() => {
         this.notes = response;
         this.isNotesLoading = false;
-      }, 1500);
+      }, 500);
 
     });
   }
@@ -56,6 +56,9 @@ export class BoardCardDialogComponent implements OnInit {
         this.notes.unshift(response);
         // очищаем поле ввода
         this.noteName = '';
+
+        // пушим в массив заметок карточки свежесозданную заметку
+        this.data.card.notes.unshift(response);
 
         this.isCreateNoteProcess = false;
 

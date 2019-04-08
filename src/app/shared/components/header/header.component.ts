@@ -1,8 +1,8 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ActivatedRoute, NavigationEnd, Router, RoutesRecognized } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Board } from '../../../models/board.model';
 import { BoardService } from '../../services/board.service';
 import { filter, finalize, mergeMap } from 'rxjs/internal/operators';
@@ -15,7 +15,7 @@ import { AreYouSureDialogComponent } from '../are-you-sure-dialog/are-you-sure-d
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit {
 
   public boardList: Observable<Board[]>;
   public activeBoard: Observable<Board>;
@@ -40,8 +40,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
 
-    console.log('ngOnInit header');
-
     // init this.user on startup
     this.authService.me().subscribe(data => {
       this.user = data.user;
@@ -53,10 +51,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.setTitle();
     this.boardList = this.boardService.getActiveBoardsList();
-  }
-
-  public ngOnDestroy() {
-    console.log('ngOnDestroy');
   }
 
   get isBoardPage(): boolean {
