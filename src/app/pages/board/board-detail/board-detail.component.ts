@@ -82,12 +82,26 @@ export class BoardDetailComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.isCardPositionChangeProcess = true;
+    let card;
+    let indexPreviousColumn;
+    const indexCurrentColumn = this.columns.findIndex((item) => item._id === data.currentColumnId);
+
+    if (data.currentColumnId !== data.previousColumnId) {
+      indexPreviousColumn = this.columns.findIndex((item) => item._id === data.previousColumnId);
+    } else {
+      indexPreviousColumn = indexCurrentColumn;
+    }
+
+    card = this.columns[indexPreviousColumn].splice(data.previousIndex, 1)[0];
+    this.columns[indexCurrentColumn].splice(data.currentIndex, 0, card);
+
+
+    // this.isCardPositionChangeProcess = true;
 
     this.cardService.updatePosition(data)
-      .pipe(finalize(() => setTimeout(() => {this.isCardPositionChangeProcess = false}, 500)))
+      .pipe(finalize(() => setTimeout(() => {this.isCardPositionChangeProcess = false})))
       .subscribe((response) => {
-        this.columns = response;
+        //this.columns = response;
       });
   }
   // удаление колонки
