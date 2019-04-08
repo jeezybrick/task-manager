@@ -1,10 +1,16 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  Component, ElementRef,
+  Inject,
+  OnInit, ViewChild,
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { Note } from '../../../models/note.model';
 import { NoteService } from '../../../shared/services/note.service';
 import { finalize } from 'rxjs/internal/operators';
+
 import { AreYouSureDialogComponent } from '../../../shared/components/are-you-sure-dialog/are-you-sure-dialog.component';
 import { SnackBarService } from '../../../shared/services/snack-bar.service';
+import { CardService } from '../../../shared/services/card.service';
 
 @Component({
   selector: 'app-board-card-dialog',
@@ -18,6 +24,9 @@ export class BoardCardDialogComponent implements OnInit {
   public isCreateNoteProcess = false;
   public isDeleteNoteProcess = false;
   public isUpdateNoteProcess = false;
+  public isShowEditCardNameInput = false;
+
+  @ViewChild('cardNameInput') cardNameInput: ElementRef;
 
   // получаем данные с выбранной карточки из компонента колонок
   constructor(public dialogRef: MatDialogRef<BoardCardDialogComponent>,
@@ -25,6 +34,7 @@ export class BoardCardDialogComponent implements OnInit {
               private snackBar: MatSnackBar,
               private snackBarService: SnackBarService,
               private dialog: MatDialog,
+              private cardService: CardService,
               private noteService: NoteService) {
   }
 
@@ -129,6 +139,20 @@ export class BoardCardDialogComponent implements OnInit {
         note = response;
         this.isUpdateNoteProcess = false;
       });
+  }
+
+  public toggleEditCardNameInput(): void {
+    this.isShowEditCardNameInput = !this.isShowEditCardNameInput;
+
+    if (this.isShowEditCardNameInput) {
+      setTimeout(() => this.cardNameInput.nativeElement.focus());
+    } else {
+
+      this.cardService.updateCard(this.data.card._id, {name: this.data.card.name})
+        .subscribe((response: any) => {
+
+        });
+    }
   }
 
 }

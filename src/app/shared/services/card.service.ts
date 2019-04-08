@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,8 @@ export class CardService {
     return this.http.delete(`/api/cards/${cardId}`);
   }
 
+   public updateCard(cardId, data): Observable<any> {
+    return this.http.patch(`/api/cards/${cardId}`, data);
+  }
 
 }

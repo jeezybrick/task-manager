@@ -4,7 +4,15 @@
   </button>
 </div>
 
-<h4>{{ data.card.name }}</h4>
+<h2 class="card-name" *ngIf="!isShowEditCardNameInput">
+  <span>{{ data.card.name }}</span>
+  <mat-icon (click)="toggleEditCardNameInput()">create</mat-icon>
+</h2>
+
+<mat-form-field class="example-focus-monitor" *ngIf="isShowEditCardNameInput">
+  <input #cardNameInput matInput placeholder="Имя карточки" [(ngModel)]="data.card.name"
+         (blur)="toggleEditCardNameInput()">
+</mat-form-field>
 
 <div>
   <mat-form-field>
@@ -12,7 +20,8 @@
   </mat-form-field>
 
   <div>
-    <button mat-raised-button color="primary" (click)="addNote()" [disabled]="!noteName.length || isCreateNoteProcess">Добавить
+    <button mat-raised-button color="primary" (click)="addNote()" [disabled]="!noteName.length || isCreateNoteProcess">
+      Добавить
     </button>
   </div>
 </div>
@@ -34,7 +43,7 @@
           <mat-icon aria-label="Сделать заметку избранной">favorite_border</mat-icon>
         </button>
 
-         <button *ngIf="note.favorite"  mat-icon-button (click)="toggleFavoriteNote(note)">
+         <button *ngIf="note.favorite" mat-icon-button (click)="toggleFavoriteNote(note)">
           <mat-icon aria-label="Убрать заметку с избранных">favorite</mat-icon>
         </button>
 

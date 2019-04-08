@@ -21,12 +21,12 @@ async function updateNote(req, res) {
   const noteData = Object.assign(note, req.body, {owner: req.user._id});
 
   // засовываем данные в модель
-  const newNote = new Note(noteData);
+  const updatedNote = new Note(noteData);
 
   // сохраняем данные
-  const savedNote = await newNote.save();
+  const savedNote = await updatedNote.save();
 
-  // возвращаем удаленную заметку
+  // возвращаем обновленную заметку
   res.json(savedNote);
 
 }

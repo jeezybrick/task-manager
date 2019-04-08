@@ -38,3 +38,9 @@ mat-form-field {
 .mat-drawer-inner-container {
   background-color: #f6f5fb;
 }
+
+.wrap {
+  .mat-focused ~ h4 {
+    display: none;
+  }
+}

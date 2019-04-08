@@ -15,5 +15,8 @@ router.post('/:cardId/notes', passport.authenticate('jwt', {session: false}), ca
 // обновление позиции карточки
 router.patch('/:cardId/update-position', passport.authenticate('jwt', {session: false}), cardCtrl.updateCardPosition);
 
+// обновление данных карточки
+router.patch('/:cardId', passport.authenticate('jwt', {session: false}), cardCtrl.updateCard);
+
 // удаление карточки с БД
 router.delete('/:cardId', passport.authenticate('jwt', {session: false}), cardCtrl.removeCard);

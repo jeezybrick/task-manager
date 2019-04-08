@@ -136,6 +136,35 @@ async function updateCardPosition(req, res) {
   res.json(columns);
 }
 
+// обновление данных заметки с БД
+async function updateCard(req, res) {
+
+  // проверка на пользователя
+  utils.checkIsAuthenticated(req, res);
+
+  // вытаскиваем с БД карточку вместе с ее владельцем
+  const card = await Card.findById({_id: req.params.cardId}).populate('owner').exec();
+
+  // проверяем является ли пользователь владельцем карточки
+  if (!utils.isUserOwner(card.owner, req.user)) {
+    res.status(403).send({message: utils.getAuthErrorMessage()});
+    return;
+  }
+
+  // сохраняем в переменную данные с фронт энда + владельца карточки
+  const cardData = Object.assign(card, req.body, {owner: req.user._id});
+
+  // засовываем данные в модель
+  const updatedCard = new Card(cardData);
+
+  // сохраняем данные
+  const savedCard = await updatedCard.save();
+
+  // возвращаем обновленную карточку
+  res.json(savedCard);
+
+}
+
 // удаление колонки с БД
 async function removeCard(req, res) {
 
@@ -193,6 +222,7 @@ module.exports = {
   getCardNotes,
   createNote,
   updateCardPosition,
+  updateCard,
   removeCard
 };
 
