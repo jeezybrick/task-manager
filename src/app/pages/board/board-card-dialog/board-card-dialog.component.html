@@ -21,21 +21,26 @@
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 
-<div style="    max-height: 500px;
-    overflow-y: auto;">
+<div class="notes-list-wrap">
 
   <mat-card class="notes-card" *ngFor="let note of notes">
-    <mat-card-actions class="card-actions" style="    display: flex;
-    justify-content: space-between;
-    align-items: center;margin-bottom: 0;">
-      <span style="font-size: 12px;
-    color: #a2a2a2;">{{ note.createdAt | date: 'medium' }}</span>
-      <button class="" mat-icon-button (click)="removeNote(note._id)">
-        <mat-icon aria-label="Удалить заметку">delete</mat-icon>
-      </button>
+
+    <mat-card-actions class="card-actions-wrap">
+      <span class="date">{{ note.createdAt | date: 'medium' }}</span>
+
+      <span class="actions">
+        <button class="" mat-icon-button (click)="toggleFavoriteNote(note._id)">
+          <mat-icon aria-label="Сделать заметку избранной">favorite_border</mat-icon>
+        </button>
+
+        <button class="" mat-icon-button (click)="removeNote(note._id)">
+          <mat-icon aria-label="Удалить заметку">delete</mat-icon>
+        </button>
+      </span>
+
     </mat-card-actions>
     <mat-card-content>
-      <p style="word-break: break-all;">
+      <p class="note-name">
         {{ note.name }}
       </p>
     </mat-card-content>

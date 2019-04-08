@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Column } from '../../../models/column.model';
 import { ColumnService } from '../../../shared/services/column.service';
 import { CardService } from '../../../shared/services/card.service';
@@ -14,7 +14,7 @@ import { AreYouSureDialogComponent } from '../../../shared/components/are-you-su
   templateUrl: './board-detail.component.html',
   styleUrls: ['./board-detail.component.scss']
 })
-export class BoardDetailComponent implements OnInit {
+export class BoardDetailComponent implements OnInit, OnDestroy {
 
   public board: Board;
   public columnName = '';
@@ -45,11 +45,16 @@ export class BoardDetailComponent implements OnInit {
 
   }
 
+  public ngOnDestroy() {
+    this.boardService.setActiveBoard(null);
+  }
+
   private getBoardDetail(boardId): void {
     this.boardService.getBoardDetail(boardId).subscribe((response: Board) => {
       if (response) {
         this.board = response;
         this.columns = [...response.columns];
+        this.boardService.setActiveBoard(response);
       } else {
         this.router.navigate(['boards']);
       }

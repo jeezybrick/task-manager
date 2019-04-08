@@ -70,4 +70,8 @@ export class BoardService {
     return this.activeBoard$.asObservable();
   }
 
+  public setActiveBoard(data): any {
+    return this.activeBoard$.next(data);
+  }
+
 }

@@ -12,8 +12,36 @@
   }
 }
 
+.notes-list-wrap {
+  max-height: 500px;
+    overflow-y: auto;
+}
 
 .notes-card {
   margin-top: 5px;
   padding-top: 0;
+
+  .card-actions-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+
+    .actions {
+
+      .mat-icon:hover {
+         position: relative;
+        top: -2px;
+      }
+    }
+
+    .date {
+      font-size: 12px;
+      color: #a2a2a2;
+    }
+  }
+
+  .note-name {
+    word-break: break-all;
+  }
 }

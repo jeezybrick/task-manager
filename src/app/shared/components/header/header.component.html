@@ -39,11 +39,12 @@
 
       <div class="toolbar-wrapper">
 
-        <div class="title-wrapper">{{ title }}
+        <div class="title-wrapper">
+          {{ title }}
 
           <ng-container *ngIf="isBoardPage">
             <button mat-icon-button aria-label="Сортировка" [matMenuTriggerFor]="sortMenu">
-              <mat-icon>sort</mat-icon>
+              <mat-icon class="sort-icon" [class.reverse]="sortBoardDirection === '1'">sort</mat-icon>
             </button>
             <mat-menu #sortMenu="matMenu">
               <button mat-menu-item (click)="sortBoard('name')">
@@ -52,20 +53,20 @@
               <button mat-menu-item (click)="sortBoard('createdAt')">
                 <span>дата</span>
               </button>
-              <button mat-menu-item (click)="sortBoard('columns.cards')" disabled>
-                <span>кол. карточек</span>
-              </button>
             </mat-menu>
           </ng-container>
 
         </div>
 
-        <div *ngIf="user" style="display: flex;align-items: center;">
+        <div class="profile-block" *ngIf="user" [matMenuTriggerFor]="profileMenu">
+
           {{ user?.fullname }}
-          <button mat-icon-button [matMenuTriggerFor]="menu">
+
+          <button mat-icon-button>
             <mat-icon>person</mat-icon>
           </button>
-          <mat-menu #menu="matMenu">
+
+          <mat-menu #profileMenu="matMenu" xPosition="before">
             <button mat-menu-item disabled>
               <mat-icon>build</mat-icon>
               <span>Настроки</span>
@@ -75,6 +76,7 @@
               <span>Выйти</span>
             </button>
           </mat-menu>
+
         </div>
       </div>
     </mat-toolbar>

@@ -20,6 +20,10 @@
 .mat-card {
   background-color: #f6f5fb;
   min-height: 130px;
+
+  .mat-card-header-text {
+    margin-left: 0;
+  }
 }
 // стили для перетаскивания
 .cdk-drag-preview {

@@ -49,6 +49,14 @@ export class HeaderComponent implements OnInit {
       this.user = user;
     });
 
+    this.boardService.getActiveBoard().subscribe((activeBoard) => {
+      if (activeBoard) {
+        this.title = activeBoard.name;
+      } else {
+        this.setTitle();
+      }
+    });
+
     this.setTitle();
     this.boardList = this.boardService.getActiveBoardsList();
   }

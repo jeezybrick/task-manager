@@ -9,6 +9,9 @@ const NoteSchema = Schema({
     type: String,
     required: true
   },
+  favorite: {
+    type: Boolean
+  },
   createdAt: {
     type: Date,
     default: Date.now

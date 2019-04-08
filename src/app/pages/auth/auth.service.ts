@@ -16,7 +16,7 @@ export class AuthService {
   constructor(private http: HttpClient, private token: TokenStorage, private boardService: BoardService) {}
 
   login(email: string, password: string): Observable<any> {
-    return Observable.create(observer => {
+    return new Observable(observer => {
       this.http.post('/api/auth/login', {
         email,
         password
@@ -31,7 +31,7 @@ export class AuthService {
   }
 
   register(fullname: string, email: string, password: string, repeatPassword: string): Observable<any> {
-    return Observable.create(observer => {
+    return new Observable(observer => {
       this.http.post('/api/auth/register', {
         fullname,
         email,
@@ -60,7 +60,7 @@ export class AuthService {
   }
 
   me(): Observable<any> {
-    return Observable.create(observer => {
+    return new Observable(observer => {
       const tokenVal = this.token.getToken();
       if (!tokenVal) {
         return observer.complete();

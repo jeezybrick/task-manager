@@ -35,3 +35,13 @@
   display: flex;
   align-items: center;
 }
+
+.profile-block {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.sort-icon.reverse {
+  transform: scaleY(-1);
+}

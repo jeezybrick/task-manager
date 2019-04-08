@@ -1,9 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { Note } from '../../../models/note.model';
 import { NoteService } from '../../../shared/services/note.service';
 import { finalize } from 'rxjs/internal/operators';
 import { AreYouSureDialogComponent } from '../../../shared/components/are-you-sure-dialog/are-you-sure-dialog.component';
+import { SnackBarService } from '../../../shared/services/snack-bar.service';
 
 @Component({
   selector: 'app-board-card-dialog',
@@ -20,6 +21,8 @@ export class BoardCardDialogComponent implements OnInit {
   // получаем данные с выбранной карточки из компонента колонок
   constructor(public dialogRef: MatDialogRef<BoardCardDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
+              private snackBar: MatSnackBar,
+              private snackBarService: SnackBarService,
               private dialog: MatDialog,
               private noteService: NoteService) {
   }
@@ -49,7 +52,9 @@ export class BoardCardDialogComponent implements OnInit {
 
     // передаем имя заметки, id карточки, id колонки в сервис для создания новой заметки
     this.noteService.createNote(this.data.card._id, {name: this.noteName})
-      .pipe(finalize(() => setTimeout(() => {this.isCreateNoteProcess = false; }, 500)))
+      .pipe(finalize(() => setTimeout(() => {
+        this.isCreateNoteProcess = false;
+      }, 500)))
       .subscribe((response: Note) => {
 
         // пушим в массив заметок свежесозданную заметку
@@ -62,37 +67,62 @@ export class BoardCardDialogComponent implements OnInit {
 
         this.isCreateNoteProcess = false;
 
-    });
+      });
   }
 
   public removeNote(noteId: string): void {
 
     const dialogRef = this.dialog.open(AreYouSureDialogComponent);
+    let removedNote;
 
     dialogRef.afterClosed().subscribe(result => {
+
       if (result) {
-        if (this.isDeleteNoteProcess) {
-          return;
+
+        const index = this.notes.findIndex((item) => item._id === noteId);
+
+        if (index > -1) {
+          removedNote = this.notes.splice(index, 1)[0];
+          this.data.card.notes.splice(index, 1);
         }
 
-        this.isDeleteNoteProcess = true;
+        this.snackBarService.showSnackBar('Карточка удалена').subscribe((action: any) => {
+          console.log(action);
 
-        this.noteService.deleteNote(noteId)
-          .pipe(finalize(() => setTimeout(() => {
-            this.isCreateNoteProcess = false;
-          }, 1000)))
-          .subscribe((response: any) => {
-            const index = this.notes.findIndex((item) => item._id === noteId);
+          if (action.reverse) {
+            this.notes.splice(index, 0, removedNote);
+            this.data.card.notes.splice(index, 0, removedNote);
+            return;
+          }
 
-            if (index > -1) {
-              this.notes.splice(index, 1);
-            }
+          this.isDeleteNoteProcess = true;
 
-            this.isDeleteNoteProcess = false;
-          });
+          this.noteService.deleteNote(noteId)
+            .subscribe((response: any) => {
+              this.isDeleteNoteProcess = false;
+            });
+
+        });
+
       }
     });
 
+
+  }
+
+  public toggleFavoriteNote(noteId: string): void {
+
+    /* this.noteService.deleteNote(noteId)
+      .subscribe((response: any) => {
+        const index = this.notes.findIndex((item) => item._id === noteId);
+
+        if (index > -1) {
+          this.notes.splice(index, 1);
+        }
+
+        this.isDeleteNoteProcess = false;
+      });
+*/
 
   }
 

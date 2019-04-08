@@ -8,7 +8,7 @@ import { BoardCreateComponent } from './board-create/board-create.component';
 export const routes: Routes = [
   { path: '', component: BoardListComponent, data: { title: 'Список досок'} },
   { path: 'create', component: BoardCreateComponent, data: { title: 'Создать доску'}},
-  { path: ':id', component: BoardDetailComponent, data: { title: 'Детали доски'}}
+  { path: ':id', component: BoardDetailComponent, data: { title: ''}}
 ];
 
 @NgModule({
