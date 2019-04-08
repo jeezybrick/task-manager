@@ -110,20 +110,17 @@ export class BoardCardDialogComponent implements OnInit {
 
   }
 
-  public toggleFavoriteNote(noteId: string): void {
+  public toggleFavoriteNote(note: Note): void {
 
-    /* this.noteService.deleteNote(noteId)
+    this.isDeleteNoteProcess = true;
+    const data = {
+      'favorite': !note.favorite
+    };
+
+    this.noteService.updateNote(note._id, data)
       .subscribe((response: any) => {
-        const index = this.notes.findIndex((item) => item._id === noteId);
-
-        if (index > -1) {
-          this.notes.splice(index, 1);
-        }
-
         this.isDeleteNoteProcess = false;
       });
-*/
-
   }
 
 }

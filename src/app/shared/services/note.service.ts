@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { Note } from '../../models/note.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +24,10 @@ export class NoteService {
 
   public deleteNote(noteId): any {
     return this.http.delete(`/api/notes/${noteId}`);
+  }
+
+  public updateNote(noteId, data): Observable<any> {
+    return this.http.patch(`/api/notes/${noteId}`, data);
   }
 
 }

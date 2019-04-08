@@ -10,7 +10,8 @@ const NoteSchema = Schema({
     required: true
   },
   favorite: {
-    type: Boolean
+    type: Boolean,
+    default: false
   },
   createdAt: {
     type: Date,
