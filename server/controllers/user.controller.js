@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const Joi = require('joi');
 const User = require('../models/user.model');
 const utils = require('../shared/utils');
-
+const errorMessage = 'Упс, что то пошло не так :(';
 const userSchema = Joi.object({
   fullname: Joi.string().required(),
   email: Joi.string().email(),
@@ -25,10 +25,14 @@ async function updateUser(req, res) {
   utils.checkIsAuthenticated(req, res);
 
   // обновляем данные пользователя
-  const user = await User.findOneAndUpdate({_id: req.user._id}, req.body, {upsert: false, new: true});
-
-  // возвращаем обновленного пользователя
-  res.json(user);
+  User.findOneAndUpdate({_id: req.user._id}, req.body, {upsert: false, new: true})
+    .exec((err, user) => {
+      if (err) {
+        res.status(403).send({email: 'Такой email уже существует'});
+      }
+      // возвращаем обновленного пользователя
+      res.json(user);
+    });
 
 }
 

@@ -10,6 +10,7 @@ import { User } from '../../../models/user.model';
 })
 export class EditProfileComponent implements OnInit {
 
+  public errors: any = {};
   public user: User;
   public profileForm: FormGroup;
   public isUserLoading = true;
@@ -31,19 +32,26 @@ export class EditProfileComponent implements OnInit {
 
   }
 
-  onSubmit({ value, valid }: any) {
+  onSubmit({value, valid}: any) {
     this.isFormSubmitting = true;
+    this.errors = {};
 
-    this.authService.updateProfile(value).subscribe((response: any) => {
-      this.isFormSubmitting = false;
-    });
+    this.authService.updateProfile(value)
+      .subscribe((response: any) => {
+          this.isFormSubmitting = false;
+        },
+        (error) => {
+          console.log(error);
+          this.errors = error;
+           this.isFormSubmitting = false;
+        });
   }
 
   private setProfileForm(): void {
     this.profileForm = this.fb.group({
       fullname: [this.user.fullname , [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
-      email: [this.user.email , [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      email: [this.user.email , [Validators.email, Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
+     // password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 

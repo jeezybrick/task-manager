@@ -34,6 +34,11 @@
 .title-wrapper {
   display: flex;
   align-items: center;
+
+  @media (max-width: 500px) {
+    display: block;
+    max-width: 250px;
+  }
 }
 
 .profile-block {
@@ -44,4 +49,10 @@
 
 .sort-icon.reverse {
   transform: scaleY(-1);
+}
+
+.user-name {
+  @media (max-width: 991px) {
+    display: none;
+  }
 }

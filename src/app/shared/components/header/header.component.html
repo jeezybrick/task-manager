@@ -1,6 +1,6 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #sidenav class="sidenav" fixedInViewport="true"
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
                [mode]="(isHandset$ | async) ? 'over' : 'side'"
                [opened]="!(isHandset$ | async)">
     <mat-toolbar *ngIf="user">
@@ -20,7 +20,7 @@
          [routerLink]="['boards', board._id]"
          routerLinkActive="active"
          *ngFor="let board of (boardList | async)">
-        {{ board.name }}
+        <span class="text-ellipsis">{{ board.name }}</span>
         <mat-icon matListIcon (click)="deleteBoard($event, board._id)">delete</mat-icon>
       </a>
 
@@ -39,7 +39,8 @@
 
       <div class="toolbar-wrapper">
 
-        <div class="title-wrapper">
+        <div class="title-wrapper text-ellipsis">
+
           {{ title }}
 
           <ng-container *ngIf="isBoardPage">
@@ -60,7 +61,7 @@
 
         <div class="profile-block" *ngIf="user" [matMenuTriggerFor]="profileMenu">
 
-          {{ user?.fullname }}
+          <span class="user-name">{{ user?.fullname }}</span>
 
           <button mat-icon-button>
             <mat-icon>person</mat-icon>
@@ -83,7 +84,7 @@
 
     <div class="main-content">
       <ng-content></ng-content>
-   </div>
+    </div>
 
   </mat-sidenav-content>
 </mat-sidenav-container>

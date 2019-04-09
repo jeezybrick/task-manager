@@ -65,6 +65,9 @@ export class AuthService {
         observer.next(user);
         this.setUser(user);
         observer.complete();
+      }, (error) => {
+        observer.error(error.error);
+        observer.complete();
       });
     });
   }

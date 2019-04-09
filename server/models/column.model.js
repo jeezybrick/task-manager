@@ -21,7 +21,7 @@ const ColumnSchema = Schema({
 // pre - значит перед тем, каке удалить с БД. Еще есть post - это после
 ColumnSchema.pre('remove', { document: true, query: true }, async function (next) {
 
-  console.log('ColumnSchema.pre');
+  console.log('Column pre remove');
 
   try {
     // удаляем дочерние карточки

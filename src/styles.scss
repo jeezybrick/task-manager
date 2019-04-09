@@ -39,8 +39,8 @@ mat-form-field {
   background-color: #f6f5fb;
 }
 
-.wrap {
-  .mat-focused ~ h4 {
-    display: none;
-  }
+.text-ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }

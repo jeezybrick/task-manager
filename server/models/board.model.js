@@ -6,7 +6,9 @@ const BoardSchema = Schema({
   columns: [{ type: Schema.Types.ObjectId, ref: 'Column' }],
   name: {
     type: String,
-    required: true
+    required: true,
+    maxlength: 40,
+    minlength: 1
   },
   createdAt: {
     type: Date,
@@ -18,7 +20,7 @@ const BoardSchema = Schema({
 // pre - значит перед тем, каке удалить с БД. Еще есть post - это после
 BoardSchema.pre('remove', async function (next) {
 
-  console.log('BoardSchema.pre');
+  console.log('Board pre remove');
 
   try {
     // удаляем дочерние колонки

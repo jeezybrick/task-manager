@@ -22,7 +22,7 @@ const CardSchema = Schema({
 
 CardSchema.pre('remove', { document: true, query: true }, async function (next) {
 
-  console.log('CardSchema.pre');
+  console.log('Card pre remove');
 
   try {
     mongoose.model('Note').remove({card: this._id}).exec();

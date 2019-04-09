@@ -1,4 +1,16 @@
 .create-board-card {
-  width: 400px;
-  margin: 10% auto;
+  width: 40vw;
+  margin: 25vh auto;
+
+  @media (max-width: 991px) {
+    width: 60vw;
+  }
+
+  @media (max-width: 600px) {
+    width: 80vw;
+  }
+}
+
+.mat-form-field {
+  margin: 1.5rem 0;
 }
