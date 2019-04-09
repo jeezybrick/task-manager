@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
-import { TokenStorage } from './token.storage';
-import { BoardService } from '../../shared/services/board.service';
+import { TokenStorage } from '../../pages/auth/token.storage';
+import { BoardService } from './board.service';
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +57,16 @@ export class AuthService {
 
   getUser(): Observable<any> {
     return this.$userSource.asObservable();
+  }
+
+  updateProfile(data): Observable<any> {
+    return new Observable(observer => {
+      return this.http.patch(`/api/user/edit`, data).subscribe((user: any) => {
+        observer.next(user);
+        this.setUser(user);
+        observer.complete();
+      });
+    });
   }
 
   me(): Observable<any> {

@@ -6,11 +6,11 @@ const userCtrl = require('../controllers/user.controller');
 const router = express.Router();
 module.exports = router;
 
-router.use(passport.authenticate('jwt', { session: false }))
+router.use(passport.authenticate('jwt', { session: false }));
 
 router.route('/')
   .post(asyncHandler(insert));
-
+router.patch('/edit', passport.authenticate('jwt', { session: false }), userCtrl.updateUser);
 
 async function insert(req, res) {
   let user = await userCtrl.insert(req.body);

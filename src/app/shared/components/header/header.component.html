@@ -67,7 +67,7 @@
           </button>
 
           <mat-menu #profileMenu="matMenu" xPosition="before">
-            <button mat-menu-item disabled>
+            <button mat-menu-item (click)="goToEditProfilePage()">
               <mat-icon>build</mat-icon>
               <span>Настроки</span>
             </button>

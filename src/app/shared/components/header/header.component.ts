@@ -6,7 +6,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Board } from '../../../models/board.model';
 import { BoardService } from '../../services/board.service';
 import { filter, finalize, mergeMap } from 'rxjs/internal/operators';
-import { AuthService } from '../../../pages/auth/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { MatDialog } from '@angular/material';
 import { AreYouSureDialogComponent } from '../are-you-sure-dialog/are-you-sure-dialog.component';
 import { HeaderService } from '../../services/header.service';
@@ -99,6 +99,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   public goToBoardsPage(): void {
     this.router.navigate(['boards']);
+  }
+
+  public goToEditProfilePage(): void {
+    this.router.navigate(['profile/edit']);
   }
 
   public logout(): void {

@@ -10,11 +10,18 @@ const routes: Routes = [
     path: 'boards',
     loadChildren: 'app/pages/board/board.module#BoardModule',
     canActivate: [AuthGuard]
-  }, {
+  },
+  {
+    path: 'profile',
+    loadChildren: 'app/pages/profile/profile.module#ProfileModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'auth',
     loadChildren: 'app/pages/auth/auth.module#AuthModule',
     canActivate: [AlreadyAuthGuard]
-  }, {
+  },
+  {
     path: 'admin',
     loadChildren: 'app/pages/admin/admin.module#AdminModule',
     canActivate: [AuthGuard]
