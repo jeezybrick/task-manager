@@ -97,24 +97,34 @@ export class BoardCardDialogComponent implements OnInit {
           this.data.card.notes.splice(index, 1);
         }
 
-        this.snackBarService.showSnackBar('Карточка удалена').subscribe((action: any) => {
-          console.log(action);
+        if (removedNote.favorite) {
 
-          if (action.reverse) {
-            this.notes.splice(index, 0, removedNote);
-            this.data.card.notes.splice(index, 0, removedNote);
-            return;
-          }
+          this.snackBarService.showSnackBar('Карточка удалена').subscribe((action: any) => {
+            console.log(action);
 
+            if (action.reverse) {
+              this.notes.splice(index, 0, removedNote);
+              this.data.card.notes.splice(index, 0, removedNote);
+              return;
+            }
+
+            this.isDeleteNoteProcess = true;
+
+            this.noteService.deleteNote(noteId)
+              .subscribe((response: any) => {
+                this.isDeleteNoteProcess = false;
+              });
+
+          });
+
+        } else {
           this.isDeleteNoteProcess = true;
 
           this.noteService.deleteNote(noteId)
             .subscribe((response: any) => {
               this.isDeleteNoteProcess = false;
             });
-
-        });
-
+        }
       }
     });
 

@@ -22,7 +22,7 @@
       cardMoved сработает когда перетащим карточку
     -->
     <div *ngIf="!isCardPositionChangeProcess"
-         class="example-list"
+         class="card-list"
          cdkDropList
          [cdkDropListData]="column"
          (cdkDropListDropped)="cardMove($event)">

@@ -95,13 +95,7 @@ export class BoardDetailComponent implements OnInit, OnDestroy {
     card = this.columns[indexPreviousColumn].cards.splice(data.previousIndex - 1, 1)[0];
     this.columns[indexCurrentColumn].cards.splice(data.currentIndex - 1, 0, card);
 
-    // this.isCardPositionChangeProcess = true;
-
-    this.cardService.updatePosition(data)
-      .pipe(finalize(() => setTimeout(() => {this.isCardPositionChangeProcess = false})))
-      .subscribe((response) => {
-        //this.columns = response;
-      });
+    this.cardService.updatePosition(data).subscribe();
   }
   // удаление колонки
   public onRemoveColumn(columnId): void {

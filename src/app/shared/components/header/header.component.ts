@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -9,13 +9,14 @@ import { filter, finalize, mergeMap } from 'rxjs/internal/operators';
 import { AuthService } from '../../../pages/auth/auth.service';
 import { MatDialog } from '@angular/material';
 import { AreYouSureDialogComponent } from '../are-you-sure-dialog/are-you-sure-dialog.component';
+import { HeaderService } from '../../services/header.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, AfterViewInit {
 
   public boardList: Observable<Board[]>;
   public activeBoard: Observable<Board>;
@@ -26,7 +27,9 @@ export class HeaderComponent implements OnInit {
 
   public user: any;
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+  @ViewChild('sidenav') sidenav: any;
+
+  public isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches)
     );
@@ -36,6 +39,7 @@ export class HeaderComponent implements OnInit {
               private dialog: MatDialog,
               private boardService: BoardService,
               private authService: AuthService,
+              private headerService: HeaderService,
               private breakpointObserver: BreakpointObserver) {}
 
   public ngOnInit() {
@@ -59,6 +63,30 @@ export class HeaderComponent implements OnInit {
 
     this.setTitle();
     this.boardList = this.boardService.getActiveBoardsList();
+  }
+
+  public ngAfterViewInit() {
+
+    this.headerService.getHeaderState().subscribe((state: any) => {
+
+      setTimeout(() => {
+
+        console.log('Header state ', state);
+
+        if (state.open) {
+          this.sidenav.open();
+          return;
+        }
+
+        if (state.close) {
+          this.sidenav.close();
+          return;
+        }
+
+      });
+
+    });
+
   }
 
   get isBoardPage(): boolean {
