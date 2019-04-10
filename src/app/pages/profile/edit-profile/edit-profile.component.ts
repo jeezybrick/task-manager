@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../shared/services/auth.service';
 import { User } from '../../../models/user.model';
+import { SnackBarService } from '../../../shared/services/snack-bar.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -18,6 +19,7 @@ export class EditProfileComponent implements OnInit {
 
 
   constructor(private authService: AuthService,
+               private snackBarService: SnackBarService,
                private fb: FormBuilder) {
 
   }
@@ -39,9 +41,11 @@ export class EditProfileComponent implements OnInit {
     this.authService.updateProfile(value)
       .subscribe((response: any) => {
           this.isFormSubmitting = false;
+          this.snackBarService.showSnackBar('Профиль умешно отредактирован', null).subscribe();
         },
         (error) => {
           console.log(error);
+          this.snackBarService.showSnackBar('Упс:( Какая-то ошибка', null, { duration: 3000, panelClass: 'error-snack' }).subscribe();
           this.errors = error;
            this.isFormSubmitting = false;
         });

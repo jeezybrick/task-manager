@@ -44,3 +44,20 @@ mat-form-field {
     white-space: nowrap;
     overflow: hidden;
 }
+
+.mat-snack-bar-container {
+  background: #161548;
+
+  span {
+    font-size: 1.1rem;
+    color: #ffffff;
+  }
+}
+
+.error-snack {
+  background: #f44336;
+
+  span {
+    color: #ffffff;
+  }
+}
