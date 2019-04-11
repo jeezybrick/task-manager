@@ -20,11 +20,6 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: 'app/pages/auth/auth.module#AuthModule',
     canActivate: [AlreadyAuthGuard]
-  },
-  {
-    path: 'admin',
-    loadChildren: 'app/pages/admin/admin.module#AdminModule',
-    canActivate: [AuthGuard]
   }];
 
 
