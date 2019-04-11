@@ -8,16 +8,16 @@
       <input matInput placeholder="Email" [(ngModel)]="email" name="email" required>
     </mat-form-field>
 
-
     <mat-form-field>
       <input matInput placeholder="Пароль" [(ngModel)]="password" type="password" name="password" required>
     </mat-form-field>
 
   </mat-card-content>
+
+   <div class="error" *ngIf="error.message">{{ error.message}}</div>
+
   <mat-card-actions>
-    <div style="    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;">
+    <div class="submit-button-wrap">
       <button mat-raised-button (click)="login()" color="primary">Логин</button>
     </div>
     <span>Все еще незарегистрированны? <a [routerLink]="['/auth/register']">Нажмите сюда</a></span>

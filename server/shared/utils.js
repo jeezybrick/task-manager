@@ -3,7 +3,7 @@ const authErrorMessage = 'Доступ запрещен';
 // проверка на пользователя
 function checkIsAuthenticated(req, res) {
 
-  if (!req.user) {
+  if (!req.isAuthenticated()) {
     res.status(403).send({message: authErrorMessage});
   }
 }

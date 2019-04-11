@@ -11,6 +11,8 @@ import { HeaderService } from '../../../shared/services/header.service';
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
+  public error: any = {};
+
   constructor(private headerService: HeaderService,
               private authService: AuthService,
               private router: Router) {
@@ -20,16 +22,20 @@ export class LoginComponent implements OnInit, OnDestroy {
   email: string;
   password: string;
 
-  ngOnInit() {}
+  public ngOnInit() {}
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.headerService.setHeaderState({open: true});
   }
 
-  login(): void {
+  public login(): void {
+    this.error = {};
+
     this.authService.login(this.email, this.password)
     .subscribe(data => {
       this.router.navigate(['']);
+    },(error) => {
+      this.error = error;
     });
   }
 

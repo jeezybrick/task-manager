@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const Joi = require('joi');
 const User = require('../models/user.model');
 const utils = require('../shared/utils');
-const errorMessage = 'Упс, что то пошло не так :(';
+
 const userSchema = Joi.object({
   fullname: Joi.string().required(),
   email: Joi.string().email(),
@@ -10,6 +10,10 @@ const userSchema = Joi.object({
   password: Joi.string().required(),
   repeatPassword: Joi.string().required().valid(Joi.ref('password'))
 });
+
+async function findByEmail(email) {
+   return await User.findOne({email}).exec();
+}
 
 async function insert(user) {
   user = await Joi.validate(user, userSchema, { abortEarly: false });
@@ -37,6 +41,7 @@ async function updateUser(req, res) {
 }
 
 module.exports = {
+  findByEmail,
   insert,
   updateUser
 };

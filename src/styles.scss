@@ -5,7 +5,7 @@
 @import '~dragula/dist/dragula.css';
 
 $custom-typography: mat-typography-config(
-    $font-family: 'Exo'
+  $font-family: 'Exo'
 );
 
 html,
@@ -20,7 +20,7 @@ body {
 }
 
 .mat-drawer-content {
-  background-color: rgba(22,21,71,0.3);
+  background-color: rgba(22, 21, 71, 0.3);
 }
 
 mat-form-field {
@@ -40,9 +40,9 @@ mat-form-field {
 }
 
 .text-ellipsis {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .mat-snack-bar-container {
@@ -60,4 +60,10 @@ mat-form-field {
   span {
     color: #ffffff;
   }
+}
+
+.submit-button-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0;
 }

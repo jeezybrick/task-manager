@@ -23,10 +23,11 @@
       </table>
     </form>
   </mat-card-content>
+
+  <div class="error" *ngIf="error.message">{{ error.message}}</div>
+
   <mat-card-actions>
-     <div style="    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;">
+     <div  class="submit-button-wrap">
        <button mat-raised-button (click)="register()" color="primary">Регистрация</button>
     </div>
     <span>Уже зарегистрированы? <a [routerLink]="['/auth/login']">Авторизуйтесь здесь </a></span>

@@ -26,6 +26,10 @@ export class AuthService {
         this.token.saveToken(data.token);
         this.boardService.getBoards().subscribe();
         observer.complete();
+      }, (error) => {
+        console.log(error);
+        observer.error({message: error.error.message, status: error.status});
+        observer.complete();
       });
     });
   }
@@ -41,6 +45,10 @@ export class AuthService {
         observer.next({user: data.user});
         this.setUser(data.user);
         this.token.saveToken(data.token);
+        observer.complete();
+      }, (error) => {
+        console.log(error);
+        observer.error({message: error.error.message, status: error.status});
         observer.complete();
       });
     });

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormControl, Validators, ValidationErrors } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ValidationErrors, FormBuilder } from '@angular/forms';
 
 
 import { AuthService } from '../../../shared/services/auth.service';
@@ -13,32 +13,31 @@ import { HeaderService } from '../../../shared/services/header.service';
 })
 export class RegisterComponent implements OnInit, OnDestroy {
 
+  public error: any = {};
+  public userForm: FormGroup;
+
   constructor(private headerService: HeaderService,
               private authService: AuthService,
+              private fb: FormBuilder,
               private router: Router) {
     headerService.setHeaderState({close: true});
   }
 
-  ngOnInit() {
+  public ngOnInit() {
+
+    this.buildUserForm();
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.headerService.setHeaderState({open: true});
   }
 
-  passwordsMatchValidator(control: FormControl): ValidationErrors {
+  public passwordsMatchValidator(control: FormControl): ValidationErrors {
     const password = control.root.get('password');
     return password && control.value !== password.value ? {
       passwordMatch: true
     } : null;
   }
-
-  userForm = new FormGroup({
-    fullname: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
-    repeatPassword: new FormControl('', [Validators.required, this.passwordsMatchValidator])
-  });
 
   get fullname(): any {
     return this.userForm.get('fullname');
@@ -56,7 +55,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     return this.userForm.get('repeatPassword');
   }
 
-  register() {
+  public register() {
 
     if (!this.userForm.valid) {
       return;
@@ -72,7 +71,18 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.authService.register(fullname, email, password, repeatPassword)
       .subscribe(data => {
         this.router.navigate(['']);
+      }, (error) => {
+        this.error = error;
       });
+  }
+
+  private buildUserForm(): void {
+    this.userForm = this.fb.group({
+      fullname: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required]),
+      repeatPassword: new FormControl('', [Validators.required, this.passwordsMatchValidator])
+    });
   }
 
 }
