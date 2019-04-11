@@ -12,6 +12,7 @@ import { HeaderService } from '../../../shared/services/header.service';
 export class LoginComponent implements OnInit, OnDestroy {
 
   public error: any = {};
+  public isFormSubmitting = false;
 
   constructor(private headerService: HeaderService,
               private authService: AuthService,
@@ -30,12 +31,15 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public login(): void {
     this.error = {};
+    this.isFormSubmitting = true;
 
     this.authService.login(this.email, this.password)
     .subscribe(data => {
       this.router.navigate(['']);
+      this.isFormSubmitting = false;
     },(error) => {
       this.error = error;
+      this.isFormSubmitting = false;
     });
   }
 

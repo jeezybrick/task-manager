@@ -15,6 +15,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   public error: any = {};
   public userForm: FormGroup;
+  public isFormSubmitting = false;
 
   constructor(private headerService: HeaderService,
               private authService: AuthService,
@@ -61,6 +62,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.isFormSubmitting = true;
+
     const {
       fullname,
       email,
@@ -70,9 +73,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     this.authService.register(fullname, email, password, repeatPassword)
       .subscribe(data => {
+        this.isFormSubmitting = false;
         this.router.navigate(['']);
       }, (error) => {
         this.error = error;
+        this.isFormSubmitting = false;
       });
   }
 

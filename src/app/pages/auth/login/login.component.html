@@ -18,8 +18,11 @@
 
   <mat-card-actions>
     <div class="submit-button-wrap">
-      <button mat-raised-button (click)="login()" color="primary">Логин</button>
+      <button mat-raised-button (click)="login()" color="primary" [disabled]="isFormSubmitting">Логин</button>
     </div>
+    <ng-container *ngIf="isFormSubmitting">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </ng-container>
     <span>Все еще незарегистрированны? <a [routerLink]="['/auth/register']">Нажмите сюда</a></span>
   </mat-card-actions>
 </mat-card>
