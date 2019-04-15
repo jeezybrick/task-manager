@@ -28,11 +28,9 @@
     {
       "name": "boards",
       "urls": [
-        "https://task-manager-322.herokuapp.com/api/auth/me",
         "/api/auth/me",
         "/api/boards",
-        "https://task-manager-322.herokuapp.com/api/boards?sortBy=createdAt&sortDirection=1",
-        "https://task-manager-322.herokuapp.com/api/boards?sortBy=createdAt&sortDirection=-1"
+        "/api/boards/**"
       ],
       "cacheConfig": {
         "strategy": "freshness",
