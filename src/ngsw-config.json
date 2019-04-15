@@ -26,17 +26,14 @@
   ],
   "dataGroups": [
     {
-      "name": "boards",
+      "name": "api-performance",
       "urls": [
-        "/api/auth/me",
-        "/api/boards",
-        "/api/boards/**"
+        "/api/**",
       ],
       "cacheConfig": {
-        "strategy": "freshness",
-        "maxSize": 15,
-        "maxAge": "1h",
-        "timeout": "5s"
+        "strategy": "performance",
+        "maxSize": 100,
+        "maxAge": "3d"
       }
     }
   ]
