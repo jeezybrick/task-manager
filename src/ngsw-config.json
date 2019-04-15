@@ -23,5 +23,21 @@
         ]
       }
     }
+  ],
+  "dataGroups": [
+    {
+      "name": "boards",
+      "urls": [
+        "/api/boards",
+        "https://task-manager-322.herokuapp.com/api/boards?sortBy=createdAt&sortDirection=1",
+        "https://task-manager-322.herokuapp.com/api/boards?sortBy=createdAt&sortDirection=-1"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 15,
+        "maxAge": "1h",
+        "timeout": "5s"
+      }
+    }
   ]
 }
