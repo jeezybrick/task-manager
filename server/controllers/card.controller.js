@@ -3,13 +3,8 @@ const Card = require('../models/card.model');
 const Note = require('../models/note.model');
 const utils = require('../shared/utils');
 
-const errorMessage = 'Упс, что то пошло не так :(';
-
 // получение списка колонок, метод - GET
 function getCardNotes(req, res) {
-
-  // проверка на пользователя
-  utils.checkIsAuthenticated(req, res);
 
   // Вытаскиваем с БД список заметок карточки
   // exec -- exucution -выполнение запроса в БД
@@ -24,9 +19,6 @@ function getCardNotes(req, res) {
 
 // сохранение карточки в БД
 async function createNote(req, res) {
-
-  // проверка на пользователя
-  utils.checkIsAuthenticated(req, res);
 
   // вытаскиваем с БД карточку
   const card = await Card.findById(req.params.cardId);
@@ -51,9 +43,6 @@ async function createNote(req, res) {
 // обновление позиции карточки
 async function updateCardPosition(req, res) {
 
-  if (!req.user) {
-    res.status(403).send({message: 'Oh uh, something went wrong'});
-  }
   // вытаскиваем деталь карточки с БД
   const card = await Card.findById(req.params.cardId);
 
@@ -139,9 +128,6 @@ async function updateCardPosition(req, res) {
 // обновление данных заметки с БД
 async function updateCard(req, res) {
 
-  // проверка на пользователя
-  utils.checkIsAuthenticated(req, res);
-
   // вытаскиваем с БД карточку вместе с ее владельцем
   const card = await Card.findById({_id: req.params.cardId}).populate('owner').exec();
 
@@ -167,9 +153,6 @@ async function updateCard(req, res) {
 
 // удаление колонки с БД
 async function removeCard(req, res) {
-
-  // проверка на пользователя
-  utils.checkIsAuthenticated(req, res);
 
   // вытаскиваем деталь карточки с БД вместе с ее владельцем
   const card = await Card.findById({_id: req.params.cardId}).populate('owner');

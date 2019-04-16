@@ -7,9 +7,6 @@ const errorMessage = 'Упс, что то пошло не так :(';
 // получение списка досок, метод - GET
 function getBoards(req, res) {
 
-  // проверка на пользователя
-  utils.checkIsAuthenticated(req, res);
-
   // Вытаскиваем с БД список досок текущего пользователя
   // exec -- exucution -выполнение запроса в БД
   Board.find({ user: req.user._id })
@@ -30,9 +27,6 @@ function getBoards(req, res) {
 // получение детали доски по id
 function getBoardDetail(req, res) {
 
-  // проверка на пользователя
-  utils.checkIsAuthenticated(req, res);
-
   // Вытаскиваем с БД деталь доски
   Board.findById(req.params.boardId)
     // замена IDшников на данные колонок и карточек
@@ -49,10 +43,7 @@ function getBoardDetail(req, res) {
 }
 
 // сохранение колонки в БД
-async function saveColumn (req, res) {
-
-  // проверка на пользователя
-  utils.checkIsAuthenticated(req, res);
+async function saveColumn(req, res) {
 
   // сохраняем в переменную данные с фронт энда + владельца колонки и ее доску
   const columnData = {...req.body, owner: req.user._id, board: req.params.boardId};
@@ -72,10 +63,7 @@ async function saveColumn (req, res) {
 }
 
 // удаление доски с БД
-async function removeBoard (req, res) {
-
-  // проверка на пользователя
-  utils.checkIsAuthenticated(req, res);
+async function removeBoard(req, res) {
 
   // вытаскиваем деталь доски с БД вместе с юзером
   const board = await Board.findById({_id: req.params.boardId}).populate('user');
@@ -96,9 +84,6 @@ async function removeBoard (req, res) {
 
 // создание доски
 function createBoard(req, res) {
-
-  // проверка на пользователя
-  utils.checkIsAuthenticated(req, res);
 
   // в req.body - данные,присланные с фронт энда + добавляем текущего пользователя как user
   const boardData = {...req.body, user: req.user._id};

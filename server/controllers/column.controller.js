@@ -8,9 +8,6 @@ const errorMessage = 'Упс, что то пошло не так :(';
 // получение списка колонок, метод - GET
 function getColumns(req, res) {
 
-  // проверка на пользователя
-  utils.checkIsAuthenticated(req, res);
-
   // Вытаскиваем с БД список колонок текущего пользователя
   // exec -- exucution -выполнение запроса в БД
   Column.find({ owner: req.user._id }).exec( (err, columns) => {
@@ -24,9 +21,6 @@ function getColumns(req, res) {
 
 // сохранение карточки в БД
 async function createCard (req, res) {
-
-  // проверка на пользователя
-  utils.checkIsAuthenticated(req, res);
 
   // вытаскиваем с БД колонку, которой будет принадлежать карточка
   const column = await Column.findById(req.params.columnId);
@@ -56,9 +50,6 @@ async function createCard (req, res) {
 
 // удаление колонки с БД
 async function removeColumn (req, res) {
-
-  // проверка на пользователя
-  utils.checkIsAuthenticated(req, res);
 
   // вытаскиваем деталь колонки с БД вместе с ее владельцем
   const column = await Column.findById({_id: req.params.columnId}).populate('owner');

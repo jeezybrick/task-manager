@@ -6,7 +6,7 @@ const columnRoutes = require('./column.route');
 const cardRoutes = require('./card.route');
 const noteRoutes = require('./note.route');
 
-const router = express.Router(); // eslint-disable-line new-cap
+const router = express.Router();
 
 router.use('/auth', authRoutes);
 router.use('/user', userRoutes);

@@ -5,9 +5,6 @@ const utils = require('../shared/utils');
 // обновление данных заметки с БД
 async function updateNote(req, res) {
 
-  // проверка на пользователя
-  utils.checkIsAuthenticated(req, res);
-
   // вытаскиваем с БД заметку вместе с ее владельцем
   const note = await Note.findById({_id: req.params.noteId}).populate('owner').exec();
 
@@ -33,9 +30,6 @@ async function updateNote(req, res) {
 
 // удаление заметки с БД
 async function removeNote(req, res) {
-
-  // проверка на пользователя
-  utils.checkIsAuthenticated(req, res);
 
   // вытаскиваем с БД заметку вместе с ее владельцем
   const note = await Note.findById({_id: req.params.noteId}).populate('owner');

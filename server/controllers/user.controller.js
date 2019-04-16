@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 const Joi = require('joi');
 const User = require('../models/user.model');
-const utils = require('../shared/utils');
 
 const userSchema = Joi.object({
   fullname: Joi.string().required(),
@@ -24,9 +23,6 @@ async function insert(user) {
 
 // обновление данных заметки с БД
 async function updateUser(req, res) {
-
-  // проверка на пользователя
-  utils.checkIsAuthenticated(req, res);
 
   // обновляем данные пользователя
   User.findOneAndUpdate({_id: req.user._id}, req.body, {upsert: false, new: true})

@@ -1,13 +1,5 @@
 const authErrorMessage = 'Доступ запрещен';
 
-// проверка на пользователя
-function checkIsAuthenticated(req, res) {
-
-  if (!req.isAuthenticated()) {
-    res.status(403).send({message: authErrorMessage});
-  }
-}
-
 // проверка является ли пользователь владельцем доски/колонки/карточки/заметки и удаляем если да
 function isUserOwner(itemOwner, authUser) {
 
@@ -29,7 +21,6 @@ function getAuthErrorMessage() {
 // экспортируем функции для того,
 // чтобы импортировать их и использовать в других файлах, например в роутинге
 module.exports = {
-  checkIsAuthenticated,
   isUserOwner,
   getAuthErrorMessage
 };

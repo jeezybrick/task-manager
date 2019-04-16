@@ -21,13 +21,14 @@ export class AuthService {
         email,
         password
       }).subscribe((data: any) => {
+
         observer.next({user: data.user});
         this.setUser(data.user);
         this.token.saveToken(data.token);
         this.boardService.getBoards().subscribe();
         observer.complete();
+
       }, (error) => {
-        console.log(error);
         observer.error({message: error.error.message, status: error.status});
         observer.complete();
       });
@@ -42,12 +43,12 @@ export class AuthService {
         password,
         repeatPassword
       }).subscribe((data: any) => {
+
         observer.next({user: data.user});
         this.setUser(data.user);
         this.token.saveToken(data.token);
         observer.complete();
       }, (error) => {
-        console.log(error);
         observer.error({message: error.error.message, status: error.status});
         observer.complete();
       });
@@ -55,11 +56,6 @@ export class AuthService {
   }
 
   setUser(user): void {
-
-    if (user) {
-      user.isAdmin = (user.roles.indexOf('admin') > -1);
-    }
-
     this.$userSource.next(user);
   }
 

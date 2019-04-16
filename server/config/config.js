@@ -37,7 +37,7 @@ const config = {
   port: envVars.SERVER_PORT,
   mongooseDebug: envVars.MONGOOSE_DEBUG,
   jwtSecret: envVars.JWT_SECRET,
-  frontend: envVars.MEAN_FRONTEND || 'angular',
+  frontend: 'angular',
   mongo: {
     host: envVars.MONGO_HOST,
     port: envVars.MONGO_PORT

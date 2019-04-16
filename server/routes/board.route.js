@@ -2,6 +2,7 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
+
 const boardCtrl = require('../controllers/board.controller');
 module.exports = router;
 

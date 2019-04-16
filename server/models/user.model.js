@@ -24,10 +24,7 @@ const UserSchema = Schema({
   createdAt: {
     type: Date,
     default: Date.now
-  },
-  roles: [{
-    type: String
-  }]
+  }
 }, {
   versionKey: false
 });

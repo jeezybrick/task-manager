@@ -2,7 +2,9 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
+
 const columnCtrl = require('../controllers/column.controller');
+
 module.exports = router;
 
 // получение списка колонок, метод - GET

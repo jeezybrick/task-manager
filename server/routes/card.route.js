@@ -3,7 +3,6 @@ const passport = require('passport');
 const router = express.Router();
 
 const cardCtrl = require('../controllers/card.controller');
-
 module.exports = router;
 
 // получение списка заметок карточки, метод - GET
