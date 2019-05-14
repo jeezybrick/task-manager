@@ -1,24 +1,24 @@
 <mat-card class="example-card">
   <mat-card-header>
-    <mat-card-title>Регистрация</mat-card-title>
+    <mat-card-title>Реєстрація</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <form class="example-form" [formGroup]="userForm">
       <table cellspacing="0">
         <mat-form-field>
-          <input matInput placeholder="Полное имя" formControlName="fullname" name="fullname" required>
+          <input matInput placeholder="Повне ім'я" formControlName="fullname" name="fullname" required>
         </mat-form-field>
         <mat-form-field>
           <input matInput placeholder="Email" formControlName="email" name="email" required>
-          <mat-error *ngIf="email.invalid && email.errors.email">Неправильный email</mat-error>
+          <mat-error *ngIf="email.invalid && email.errors.email">Невірний email</mat-error>
         </mat-form-field>
         <mat-form-field>
           <input matInput placeholder="Пароль" formControlName="password" type="password" name="password" required>
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Введите пароль еще раз" formControlName="repeatPassword" type="password"
+          <input matInput placeholder="Введіть пароль ще раз" formControlName="repeatPassword" type="password"
                  name="repeatPassword" required>
-          <mat-error *ngIf="repeatPassword.invalid && repeatPassword.errors.passwordMatch">Пароли не совпадают</mat-error>
+          <mat-error *ngIf="repeatPassword.invalid && repeatPassword.errors.passwordMatch">Паролі не співпадають</mat-error>
         </mat-form-field>
       </table>
     </form>
@@ -28,11 +28,11 @@
 
   <mat-card-actions>
      <div  class="submit-button-wrap">
-       <button mat-raised-button (click)="register()" color="primary" [disabled]="isFormSubmitting">Регистрация</button>
+       <button mat-raised-button (click)="register()" color="primary" [disabled]="isFormSubmitting">Реєстрація</button>
     </div>
     <ng-container *ngIf="isFormSubmitting">
         <mat-progress-bar mode="indeterminate"></mat-progress-bar>
       </ng-container>
-    <span>Уже зарегистрированы? <a [routerLink]="['/auth/login']">Авторизуйтесь здесь </a></span>
+    <span>Вже зареєстровані? <a [routerLink]="['/auth/login']">Авторизуйтесь тут</a></span>
   </mat-card-actions>
 </mat-card>

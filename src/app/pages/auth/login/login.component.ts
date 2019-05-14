@@ -29,12 +29,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.headerService.setHeaderState({open: true});
   }
 
+  // метод для авторизации
   public login(): void {
     this.error = {};
     this.isFormSubmitting = true;
 
     this.authService.login(this.email, this.password)
     .subscribe(data => {
+      // авторизация успешна - перенаправляем пользователя на домашнюю страницу
       this.router.navigate(['']);
       this.isFormSubmitting = false;
     },(error) => {

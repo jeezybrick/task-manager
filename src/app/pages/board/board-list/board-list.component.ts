@@ -35,13 +35,18 @@ export class BoardListComponent implements OnInit {
      this.router.navigate([boardId], { relativeTo: this.route});
   }
 
+  // удаление доски
   public deleteBoard(event: Event, boardId: string): void {
 
     event.stopPropagation();
 
+
+    // открываем диалог для подтверждения удаления
     const dialogRef = this.dialog.open(AreYouSureDialogComponent);
 
     dialogRef.afterClosed().subscribe(result => {
+
+      // Если ответ с диалога "Да" - удалем доску
       if (result) {
 
         if (this.isBoardsDeleteProcess) {

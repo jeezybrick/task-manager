@@ -151,13 +151,13 @@ async function updateCard(req, res) {
 
 }
 
-// удаление колонки с БД
+// удаление карточки с БД
 async function removeCard(req, res) {
 
   // вытаскиваем деталь карточки с БД вместе с ее владельцем
   const card = await Card.findById({_id: req.params.cardId}).populate('owner');
 
-  // проверяем является ли пользователь владельцем колонки
+  // проверяем является ли пользователь владельцем карточки
   if (!utils.isUserOwner(card.owner, req.user)) {
     res.status(403).send({message: utils.getAuthErrorMessage()});
     return;

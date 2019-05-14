@@ -110,14 +110,17 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/auth/login']);
   }
 
+  // сортировка досок
   public sortBoard(sortBy): void {
 
+    // смена направлени сортировки
     if (this.sortBoardBy === sortBy) {
       this.sortBoardDirection =  this.sortBoardDirection === '1' ? '-1' : '1';
     } else {
       this.sortBoardDirection = '1';
     }
 
+    // в переменной sortBy - параметр сортировки
     this.sortBoardBy = sortBy;
     this.boardService.getBoards(sortBy, this.sortBoardDirection).subscribe();
   }

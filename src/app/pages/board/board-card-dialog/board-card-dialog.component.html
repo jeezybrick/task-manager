@@ -1,6 +1,6 @@
 <div class="close-icon-wrapper">
   <button class="close-icon" mat-icon-button mat-dialog-close>
-    <mat-icon aria-label="Закрыть диалог">close</mat-icon>
+    <mat-icon aria-label="Закрити діалог">close</mat-icon>
   </button>
 </div>
 
@@ -10,18 +10,18 @@
 </h2>
 
 <mat-form-field class="example-focus-monitor" *ngIf="isShowEditCardNameInput">
-  <input #cardNameInput matInput placeholder="Имя карточки" [(ngModel)]="data.card.name"
+  <input #cardNameInput matInput placeholder="Ім'я картки" [(ngModel)]="data.card.name"
          (blur)="toggleEditCardNameInput()">
 </mat-form-field>
 
 <div>
   <mat-form-field>
-    <textarea matInput placeholder="Добавить заметку" [(ngModel)]="noteName"></textarea>
+    <textarea matInput placeholder="Додати замітку" [(ngModel)]="noteName"></textarea>
   </mat-form-field>
 
   <div>
     <button mat-raised-button color="primary" (click)="addNote()" [disabled]="!noteName.length || isCreateNoteProcess">
-      Добавить
+      Додати
     </button>
   </div>
 </div>
@@ -40,15 +40,15 @@
       <span class="actions">
 
         <button *ngIf="!note.favorite" mat-icon-button (click)="toggleFavoriteNote(note)">
-          <mat-icon aria-label="Сделать заметку избранной">favorite_border</mat-icon>
+          <mat-icon aria-label="Зробити замітку обранною">favorite_border</mat-icon>
         </button>
 
          <button *ngIf="note.favorite" mat-icon-button (click)="toggleFavoriteNote(note)">
-          <mat-icon aria-label="Убрать заметку с избранных">favorite</mat-icon>
+          <mat-icon aria-label="Видалити замітку с обраних">favorite</mat-icon>
         </button>
 
         <button class="" mat-icon-button (click)="removeNote(note._id)">
-          <mat-icon aria-label="Удалить заметку">delete</mat-icon>
+          <mat-icon aria-label="Видалити замітку">delete</mat-icon>
         </button>
 
       </span>

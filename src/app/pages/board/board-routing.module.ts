@@ -6,8 +6,8 @@ import { BoardListComponent } from './board-list/board-list.component';
 import { BoardCreateComponent } from './board-create/board-create.component';
 
 export const routes: Routes = [
-  { path: '', component: BoardListComponent, data: { title: 'Список досок'} },
-  { path: 'create', component: BoardCreateComponent, data: { title: 'Создать доску'}},
+  { path: '', component: BoardListComponent, data: { title: 'Список дошок'} },
+  { path: 'create', component: BoardCreateComponent, data: { title: 'Створити дошку'}},
   { path: ':id', component: BoardDetailComponent, data: { title: ''}}
 ];
 

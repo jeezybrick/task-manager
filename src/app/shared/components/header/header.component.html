@@ -4,9 +4,9 @@
                [mode]="(isHandset$ | async) ? 'over' : 'side'"
                [opened]="!(isHandset$ | async)">
     <mat-toolbar *ngIf="user">
-      <button mat-button style="font-size: 1.4rem;" (click)="goToBoardsPage()">Доски</button>
+      <button mat-button style="font-size: 1.4rem;" (click)="goToBoardsPage()">Дошки</button>
       <button mat-icon-button>
-        <mat-icon aria-label="Добавить доску" (click)="goToCreateBoardPage()">add</mat-icon>
+        <mat-icon aria-label="Додати дошку" (click)="goToCreateBoardPage()">add</mat-icon>
       </button>
     </mat-toolbar>
 
@@ -44,12 +44,12 @@
           {{ title }}
 
           <ng-container *ngIf="isBoardPage">
-            <button mat-icon-button aria-label="Сортировка" [matMenuTriggerFor]="sortMenu">
+            <button mat-icon-button aria-label="Сортування" [matMenuTriggerFor]="sortMenu">
               <mat-icon class="sort-icon" [class.reverse]="sortBoardDirection === '1'">sort</mat-icon>
             </button>
             <mat-menu #sortMenu="matMenu">
               <button mat-menu-item (click)="sortBoard('name')">
-                <span>название</span>
+                <span>ім'я</span>
               </button>
               <button mat-menu-item (click)="sortBoard('createdAt')">
                 <span>дата</span>
@@ -70,11 +70,11 @@
           <mat-menu #profileMenu="matMenu" xPosition="before">
             <button mat-menu-item (click)="goToEditProfilePage()">
               <mat-icon>build</mat-icon>
-              <span>Настроки</span>
+              <span>Налаштування</span>
             </button>
             <button mat-menu-item (click)="logout()">
               <mat-icon>exit_to_app</mat-icon>
-              <span>Выйти</span>
+              <span>Вийти</span>
             </button>
           </mat-menu>
 

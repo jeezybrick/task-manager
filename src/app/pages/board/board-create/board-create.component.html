@@ -2,8 +2,8 @@
   <div class="">
     <div>
 
-      <mat-form-field hintLabel="Максимум 40 симолов">
-        <input #boardnameinput matInput placeholder="Имя доски" [(ngModel)]="boardName" minlength="1" maxlength="40">
+      <mat-form-field hintLabel="Максимум 40 симолів">
+        <input #boardnameinput matInput placeholder="Ім'я дошки" [(ngModel)]="boardName" minlength="1" maxlength="40">
         <mat-hint align="end">{{boardnameinput.value?.length || 0}}/40</mat-hint>
       </mat-form-field>
 
@@ -11,7 +11,7 @@
               color="primary"
               (click)="createBoard()"
               [disabled]="!boardName.length || isBoardCreateProcess">
-        Создать доску
+        Створити дошку
       </button>
 
     </div>

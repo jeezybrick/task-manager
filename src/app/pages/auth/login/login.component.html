@@ -1,6 +1,6 @@
 <mat-card class="example-card">
   <mat-card-header>
-    <mat-card-title>Авторизация</mat-card-title>
+    <mat-card-title>Авторизація</mat-card-title>
   </mat-card-header>
   <mat-card-content>
 
@@ -18,11 +18,11 @@
 
   <mat-card-actions>
     <div class="submit-button-wrap">
-      <button mat-raised-button (click)="login()" color="primary" [disabled]="isFormSubmitting">Логин</button>
+      <button mat-raised-button (click)="login()" color="primary" [disabled]="isFormSubmitting">Логін</button>
     </div>
     <ng-container *ngIf="isFormSubmitting">
         <mat-progress-bar mode="indeterminate"></mat-progress-bar>
       </ng-container>
-    <span>Все еще незарегистрированны? <a [routerLink]="['/auth/register']">Нажмите сюда</a></span>
+    <span>Все ще незареєстровані? <a [routerLink]="['/auth/register']">Натисніть сюди</a></span>
   </mat-card-actions>
 </mat-card>

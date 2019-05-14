@@ -42,6 +42,8 @@ export class BoardCardDialogComponent implements OnInit {
     this.getNotes();
   }
 
+
+  // получение заметок
   private getNotes(): void {
     this.noteService.getNotes(this.data.card._id).subscribe((response: Note[]) => {
 
@@ -99,7 +101,7 @@ export class BoardCardDialogComponent implements OnInit {
 
         if (removedNote.favorite) {
 
-          this.snackBarService.showSnackBar('Карточка удалена').subscribe((action: any) => {
+          this.snackBarService.showSnackBar('Замітка видалена!').subscribe((action: any) => {
             console.log(action);
 
             if (action.reverse) {
@@ -151,6 +153,7 @@ export class BoardCardDialogComponent implements OnInit {
       });
   }
 
+  // метод  для изменения имени карточки
   public toggleEditCardNameInput(): void {
     this.isShowEditCardNameInput = !this.isShowEditCardNameInput;
 

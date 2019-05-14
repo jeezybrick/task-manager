@@ -49,6 +49,7 @@ export class BoardDetailComponent implements OnInit, OnDestroy {
     this.boardService.setActiveBoard(null);
   }
 
+  // получение детали доски, колонок и карточек
   private getBoardDetail(boardId): void {
     this.boardService.getBoardDetail(boardId).subscribe((response: Board) => {
       if (response) {

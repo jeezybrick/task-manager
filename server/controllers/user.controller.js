@@ -21,7 +21,7 @@ async function insert(user) {
   return await new User(user).save();
 }
 
-// обновление данных заметки с БД
+// обновление данных пользователя с БД
 async function updateUser(req, res) {
 
   // обновляем данные пользователя

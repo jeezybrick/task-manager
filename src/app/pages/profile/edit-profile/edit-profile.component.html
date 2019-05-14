@@ -8,19 +8,19 @@
 
     <form novalidate [formGroup]="profileForm" (ngSubmit)="onSubmit(profileForm)">
 
-      <mat-form-field hintLabel="Максимум 30 симолов">
-        <input #fullnameinput matInput placeholder="Полное имя" formControlName="fullname" required>
+      <mat-form-field hintLabel="Максимум 30 симолів">
+        <input #fullnameinput matInput placeholder="Повне ім'я" formControlName="fullname" required>
          <mat-hint align="end">{{fullnameinput.value?.length || 0}}/30</mat-hint>
         <mat-error *ngIf="profileForm.get('fullname').hasError('required') && profileForm.get('fullname').touched">
-          Обязательное поле
+          Обов'язкове поле
         </mat-error>
 
         <mat-error *ngIf="profileForm.get('fullname').hasError('minlength') && profileForm.get('fullname').touched">
-          Минимум 2 символа
+          Мінімум 2 символи
         </mat-error>
 
         <mat-error *ngIf="profileForm.get('fullname').hasError('maxlength') && profileForm.get('fullname').touched">
-          Максимум 30 символов
+          Максимум 30 символів
         </mat-error>
       </mat-form-field>
 
@@ -28,34 +28,23 @@
         <input type="email" matInput placeholder="Email" formControlName="email" required>
 
          <mat-error *ngIf="profileForm.get('email').hasError('email') && profileForm.get('email').touched">
-          Неправильный формат email
+          Невірний формат email
         </mat-error>
 
         <mat-error *ngIf="profileForm.get('email').hasError('required') && profileForm.get('email').touched">
-          Обязательное поле
+          Обов'язкове поле
         </mat-error>
 
         <mat-error *ngIf="profileForm.get('email').hasError('minlength') && profileForm.get('email').touched">
-          Минимум 2 символа
+           Мінімум 2 символи
         </mat-error>
 
       </mat-form-field>
 
       <div class="error" *ngIf="errors.email">{{ errors.email }}</div>
 
-    <!--  <mat-form-field>
-        <input type="password" matInput placeholder="Пароль" formControlName="password" required>
-        <mat-error *ngIf="profileForm.get('password').hasError('required') && profileForm.get('password').touched">
-          Обязательное поле
-        </mat-error>
-
-        <mat-error *ngIf="profileForm.get('password').hasError('minlength') && profileForm.get('password').touched">
-          Минимум 2 символа
-        </mat-error>
-      </mat-form-field>-->
-
       <div class="submit-button-wrap">
-        <button type="submit" mat-raised-button color="primary" [disabled]="!profileForm.valid || isFormSubmitting">Редактировать</button>
+        <button type="submit" mat-raised-button color="primary" [disabled]="!profileForm.valid || isFormSubmitting">Редагувати</button>
       </div>
 
       <ng-container *ngIf="isFormSubmitting">

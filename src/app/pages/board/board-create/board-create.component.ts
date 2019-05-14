@@ -21,6 +21,8 @@ export class BoardCreateComponent implements OnInit {
   ngOnInit() {
   }
 
+
+  // создание доски
   public createBoard(): void {
     this.isBoardCreateProcess = true;
 

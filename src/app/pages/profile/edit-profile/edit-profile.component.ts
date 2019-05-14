@@ -41,11 +41,11 @@ export class EditProfileComponent implements OnInit {
     this.authService.updateProfile(value)
       .subscribe((response: any) => {
           this.isFormSubmitting = false;
-          this.snackBarService.showSnackBar('Профиль умешно отредактирован', null).subscribe();
+          this.snackBarService.showSnackBar('Профіль успішно відредагований', null).subscribe();
         },
         (error) => {
           console.log(error);
-          this.snackBarService.showSnackBar('Упс:( Какая-то ошибка', null, { duration: 3000, panelClass: 'error-snack' }).subscribe();
+          this.snackBarService.showSnackBar('Упс:( Якась помилка', null, { duration: 3000, panelClass: 'error-snack' }).subscribe();
           this.errors = error;
            this.isFormSubmitting = false;
         });

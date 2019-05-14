@@ -5,11 +5,11 @@
   <mat-card-content>
     <span class="remove-icon" (click)="removeColumn()"><mat-icon>delete</mat-icon></span>
     <mat-form-field>
-      <input matInput placeholder="Имя карточки" [(ngModel)]="cardName">
+      <input matInput placeholder="Ім'я картки" [(ngModel)]="cardName">
     </mat-form-field>
 
     <div>
-      <button mat-raised-button color="primary" (click)="addCard()" [disabled]="!cardName.length || isCreateCardProcess">Добавить
+      <button mat-raised-button color="primary" (click)="addCard()" [disabled]="!cardName.length || isCreateCardProcess">Додати
       </button>
     </div>
 

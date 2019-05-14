@@ -13,10 +13,14 @@ import { HeaderService } from '../../../shared/services/header.service';
 })
 export class RegisterComponent implements OnInit, OnDestroy {
 
+  // переменная для ошибок
   public error: any = {};
+  // переменная формв
   public userForm: FormGroup;
+  // переменная выполнения формы
   public isFormSubmitting = false;
 
+  // конструктор компонента
   constructor(private headerService: HeaderService,
               private authService: AuthService,
               private fb: FormBuilder,
@@ -24,15 +28,18 @@ export class RegisterComponent implements OnInit, OnDestroy {
     headerService.setHeaderState({close: true});
   }
 
+  // метод, который выполняется после инициализации компонента
   public ngOnInit() {
 
     this.buildUserForm();
   }
 
+  // метод, который выполняется после разрушения компонента
   public ngOnDestroy() {
     this.headerService.setHeaderState({open: true});
   }
 
+  // метод для проверки введенных паролей пользователем
   public passwordsMatchValidator(control: FormControl): ValidationErrors {
     const password = control.root.get('password');
     return password && control.value !== password.value ? {
@@ -71,6 +78,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
       repeatPassword
     } = this.userForm.getRawValue();
 
+
+    // отправка данніх на бекенд
     this.authService.register(fullname, email, password, repeatPassword)
       .subscribe(data => {
         this.isFormSubmitting = false;
@@ -81,6 +90,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       });
   }
 
+  // создание формы для регистрации
   private buildUserForm(): void {
     this.userForm = this.fb.group({
       fullname: new FormControl('', [Validators.required]),
