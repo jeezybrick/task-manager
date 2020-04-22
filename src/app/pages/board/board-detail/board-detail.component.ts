@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BoardService } from '../../../shared/services/board.service';
 import { Board } from '../../../models/board.model';
 import { finalize } from 'rxjs/internal/operators';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { AreYouSureDialogComponent } from '../../../shared/components/are-you-sure-dialog/are-you-sure-dialog.component';
 
 @Component({

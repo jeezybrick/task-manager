@@ -7,7 +7,7 @@ import { Board } from '../../../models/board.model';
 import { BoardService } from '../../services/board.service';
 import { filter, finalize, mergeMap } from 'rxjs/internal/operators';
 import { AuthService } from '../../services/auth.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { AreYouSureDialogComponent } from '../are-you-sure-dialog/are-you-sure-dialog.component';
 import { HeaderService } from '../../services/header.service';
 

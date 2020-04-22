@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Board } from '../../models/board.model';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
-import { BehaviorSubject } from 'rxjs/Rx';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
