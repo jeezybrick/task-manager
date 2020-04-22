@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { BoardCardDialogComponent } from '../board-card-dialog/board-card-dialog.component';
 import { Column } from '../../../models/column.model';
 import { Card } from '../../../models/card.model';

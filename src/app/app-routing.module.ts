@@ -8,17 +8,17 @@ const routes: Routes = [
   {path: '', redirectTo: 'boards', pathMatch: 'full'},
   {
     path: 'boards',
-    loadChildren: 'app/pages/board/board.module#BoardModule',
+    loadChildren: () => import('app/pages/board/board.module').then(m => m.BoardModule),
     canActivate: [AuthGuard]
   },
   {
     path: 'profile',
-    loadChildren: 'app/pages/profile/profile.module#ProfileModule',
+    loadChildren: () => import('app/pages/profile/profile.module').then(m => m.ProfileModule),
     canActivate: [AuthGuard]
   },
   {
     path: 'auth',
-    loadChildren: 'app/pages/auth/auth.module#AuthModule',
+    loadChildren: () => import('app/pages/auth/auth.module').then(m => m.AuthModule),
     canActivate: [AlreadyAuthGuard]
   }];
 

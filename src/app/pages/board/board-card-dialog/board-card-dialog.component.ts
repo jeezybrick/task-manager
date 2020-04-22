@@ -3,7 +3,8 @@ import {
   Inject,
   OnInit, ViewChild,
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Note } from '../../../models/note.model';
 import { NoteService } from '../../../shared/services/note.service';
 import { finalize } from 'rxjs/internal/operators';

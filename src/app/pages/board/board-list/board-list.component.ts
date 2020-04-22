@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Board } from '../../../models/board.model';
 import { BoardService } from '../../../shared/services/board.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { AreYouSureDialogComponent } from '../../../shared/components/are-you-sure-dialog/are-you-sure-dialog.component';
 import { finalize } from 'rxjs/internal/operators';
 
