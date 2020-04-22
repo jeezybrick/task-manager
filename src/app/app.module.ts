@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './pages/auth/auth.module';
@@ -14,15 +15,12 @@ import { CatchErrorInterceptor } from './interceptors/http-error.interceptor';
 import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import {
-  MatToolbarModule,
-  MatButtonModule,
-  MatSidenavModule,
-  MatIconModule,
-  MatListModule,
-  MAT_SNACK_BAR_DEFAULT_OPTIONS
-} from '@angular/material';
-import { ServiceWorkerModule } from '@angular/service-worker';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { environment } from '../environments/environment';
 
 @NgModule({
