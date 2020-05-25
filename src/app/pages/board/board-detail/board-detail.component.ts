@@ -8,6 +8,7 @@ import { Board } from '../../../models/board.model';
 import { finalize } from 'rxjs/internal/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { AreYouSureDialogComponent } from '../../../shared/components/are-you-sure-dialog/are-you-sure-dialog.component';
+import { InviteToBoardDialogComponent } from '../../../shared/components/invite-to-board-dialog/invite-to-board-dialog.component';
 
 @Component({
   selector: 'app-board-detail',
@@ -115,6 +116,13 @@ export class BoardDetailComponent implements OnInit, OnDestroy {
       }
     });
 
+  }
+
+  // вызываем модалку в котороый можно дать доступ к этой доске другим пользователям
+  public showInviteToBoardDialog(): void {
+    this.dialog.open(InviteToBoardDialogComponent, {
+      minWidth: '380px'
+    });
   }
 
 }

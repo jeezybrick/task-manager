@@ -42,6 +42,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { AreYouSureDialogComponent } from './components/are-you-sure-dialog/are-you-sure-dialog.component';
+import { InviteToBoardDialogComponent } from './components/invite-to-board-dialog/invite-to-board-dialog.component';
 
 @NgModule({
   imports: [
@@ -131,8 +132,8 @@ import { AreYouSureDialogComponent } from './components/are-you-sure-dialog/are-
     MatTooltipModule,
     ScrollingModule
   ],
-  declarations: [AreYouSureDialogComponent],
-  entryComponents: [AreYouSureDialogComponent]
+  declarations: [AreYouSureDialogComponent, InviteToBoardDialogComponent],
+  entryComponents: [AreYouSureDialogComponent, InviteToBoardDialogComponent]
 })
 export class SharedModule {
 }

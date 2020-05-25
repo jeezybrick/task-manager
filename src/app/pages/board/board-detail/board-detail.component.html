@@ -2,6 +2,10 @@
   <mat-spinner mode="indeterminate"></mat-spinner>
 </div>
 
+<div>
+  <button mat-raised-button (click)="showInviteToBoardDialog()" color="primary">Пригласить</button>
+</div>
+
 <!-- cdkDropListGroup оборачиваем этой директивой для драг энд дропа-->
 <div class="column-wrapper" cdkDropListGroup *ngIf="!isBoardLoading">
 

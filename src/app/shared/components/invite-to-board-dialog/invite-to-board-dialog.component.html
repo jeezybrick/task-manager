@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>Пригласить на доску</h1>
+
+<div>
+  <mat-progress-bar *ngIf="!isUsersLoaded"></mat-progress-bar>
+  <mat-form-field *ngIf="isUsersLoaded">
+    <mat-chip-list #chipList>
+      <mat-chip
+        *ngFor="let fruit of fruits"
+        (removed)="remove(fruit)">
+        {{fruit}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+      <input
+        placeholder="Выберете пользователя"
+        #fruitInput
+        [formControl]="fruitCtrl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList">
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+        {{fruit}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-raised-button [mat-dialog-close]>Отмена</button>
+  <button mat-raised-button color="primary">Пригласить</button>
+</div>
