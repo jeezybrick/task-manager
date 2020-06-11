@@ -84,10 +84,9 @@ async function removeBoard(req, res) {
 
 // создание доски
 function createBoard(req, res) {
-
-
+  const users = req.users || [];
   // в req.body - данные,присланные с фронт энда + добавляем текущего пользователя как user
-  const boardData = {...req.body, user: req.user._id, owner: req.user._id, users: [req.user._id]};
+  const boardData = {...req.body, user: req.user._id, owner: req.user._id, users: [...users, req.user._id]};
   // засовываем данные в модель
   const newBoard = new Board(boardData);
 
