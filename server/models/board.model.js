@@ -3,6 +3,8 @@ const Schema = mongoose.Schema;
 
 const BoardSchema = Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true},
+  users: [{ type: Schema.Types.ObjectId, ref: 'User', required: true}],
+  owner: { type: Schema.Types.ObjectId, ref: 'User', required: true},
   columns: [{ type: Schema.Types.ObjectId, ref: 'Column' }],
   name: {
     type: String,

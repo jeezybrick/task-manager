@@ -9,7 +9,7 @@ function getBoards(req, res) {
 
   // Вытаскиваем с БД список досок текущего пользователя
   // exec -- exucution -выполнение запроса в БД
-  Board.find({ user: req.user._id })
+  Board.find({ users: [req.user._id] })
     .populate({
       path: 'columns',
       populate: {path: 'cards', options: {sort: 'position'}}
@@ -66,10 +66,10 @@ async function saveColumn(req, res) {
 async function removeBoard(req, res) {
 
   // вытаскиваем деталь доски с БД вместе с юзером
-  const board = await Board.findById({_id: req.params.boardId}).populate('user');
+  const board = await Board.findById({_id: req.params.boardId}).populate('owner');
 
   // проверяем является ли пользователь владельцем доски
-  if (!utils.isUserOwner(board.user, req.user)) {
+  if (!utils.isUserOwner(board.owner, req.user)) {
     res.status(403).send({message: utils.getAuthErrorMessage()});
     return;
   }
@@ -85,8 +85,9 @@ async function removeBoard(req, res) {
 // создание доски
 function createBoard(req, res) {
 
+
   // в req.body - данные,присланные с фронт энда + добавляем текущего пользователя как user
-  const boardData = {...req.body, user: req.user._id};
+  const boardData = {...req.body, user: req.user._id, owner: req.user._id, users: [req.user._id]};
   // засовываем данные в модель
   const newBoard = new Board(boardData);
 

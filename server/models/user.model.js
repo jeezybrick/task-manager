@@ -24,7 +24,7 @@ const UserSchema = Schema({
   createdAt: {
     type: Date,
     default: Date.now
-  }
+  },
 }, {
   versionKey: false
 });
