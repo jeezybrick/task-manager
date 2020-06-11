@@ -16,9 +16,22 @@ function getUsers(req, res) {
 
 }
 
+function getUserDetails(req, res) {
+
+  // Вытаскиваем с БД деталь доски
+  User.findById(req.params.userId)
+    .exec((err, user) => {
+      if (err) {
+        res.status(404).send({message: errorMessage});
+      }
+      res.json(user);
+    });
+}
+
 // экспортируем функции для того,
 // чтобы импортировать их и использовать в других файлах, например в роутинге
 module.exports = {
   getUsers,
+  getUserDetails,
 };
 

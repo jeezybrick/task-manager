@@ -14,6 +14,9 @@ function getBoards(req, res) {
     .populate({
       path: 'columns',
       populate: {path: 'cards', options: {sort: 'position'}}
+    },)
+    .populate({
+      path: 'users',
     })
     .sort([[req.query.sortBy, req.query.sortDirection]])
     .exec((err, boards) => {
@@ -34,6 +37,9 @@ function getBoardDetail(req, res) {
     .populate({
       path: 'columns',
       populate: {path: 'cards', options: {sort: 'position'}}
+    })
+    .populate({
+      path: 'users',
     })
     .exec((err, board) => {
       if (err) {
@@ -61,6 +67,11 @@ async function saveColumn(req, res) {
   // возвращаем сохраненную колонку
   res.json(savedColumn);
 
+}
+
+async function addUsersToBoard(req, res) {
+  const board = await Board.findOneAndUpdate({_id: req.params.boardId}, {$push: {users: req.body.users}}).exec();
+  res.json(board);
 }
 
 // удаление доски с БД
@@ -131,5 +142,6 @@ module.exports = {
   removeBoard,
   createBoard,
   getIsCurrentUserNotifiedAboutAttachedBoards,
+  addUsersToBoard,
 };
 

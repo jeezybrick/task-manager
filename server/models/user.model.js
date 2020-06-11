@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const defaultAvatarUrl = 'https://ionicframework.com/docs/demos/api/avatar/avatar.svg';
+
 const UserSchema = Schema({
   fullname: {
     type: String,
@@ -25,9 +27,10 @@ const UserSchema = Schema({
     type: Date,
     default: Date.now
   },
-  isNotifiedAboutBorders: {
-    type: Boolean,
-    required: false
+  avatar: {
+    type: String,
+    required: false,
+    default: defaultAvatarUrl
   },
 }, {
   versionKey: false

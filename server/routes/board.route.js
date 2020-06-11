@@ -11,6 +11,8 @@ router.get('', passport.authenticate('jwt', {session: false}), boardCtrl.getBoar
 
 router.get('/checkIsNotified', passport.authenticate('jwt', {session: false}), boardCtrl.getIsCurrentUserNotifiedAboutAttachedBoards);
 
+router.post('/:boardId/add-users', passport.authenticate('jwt', {session: false}), boardCtrl.addUsersToBoard);
+
 // получение детали доски по id
 router.get('/:boardId', passport.authenticate('jwt', {session: false}), boardCtrl.getBoardDetail);
 
