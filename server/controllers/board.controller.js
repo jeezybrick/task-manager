@@ -9,7 +9,8 @@ function getBoards(req, res) {
 
   // Вытаскиваем с БД список досок текущего пользователя
   // exec -- exucution -выполнение запроса в БД
-  Board.find({ users: [req.user._id] })
+  Board.find()
+    .where('users').in([req.user._id])
     .populate({
       path: 'columns',
       populate: {path: 'cards', options: {sort: 'position'}}
@@ -84,9 +85,15 @@ async function removeBoard(req, res) {
 
 // создание доски
 function createBoard(req, res) {
-  const users = req.users || [];
+  const users = req.body.users || [];
   // в req.body - данные,присланные с фронт энда + добавляем текущего пользователя как user
-  const boardData = {...req.body, user: req.user._id, owner: req.user._id, users: [...users, req.user._id]};
+  const boardData = {
+    ...req.body,
+    user: req.user._id,
+    owner: req.user._id,
+    users: [...users, req.user._id],
+    notifiedUsers: [req.user._id],
+  };
   // засовываем данные в модель
   const newBoard = new Board(boardData);
 
@@ -100,6 +107,21 @@ function createBoard(req, res) {
 
 }
 
+async function getIsCurrentUserNotifiedAboutAttachedBoards(req, res) {
+  const boards = await Board.find()
+    .where('users').in([req.user._id])
+    .where('notifiedUsers').nin([req.user._id])
+    .exec();
+
+  if (boards.length) {
+    for (const board of boards) {
+      await Board.findByIdAndUpdate(board._id, {notifiedUsers: board.users}).exec();
+    }
+  }
+
+  res.json(!boards.length);
+}
+
 // экспортируем функции для того,
 // чтобы импортировать их и использовать в других файлах, например в роутинге
 module.exports = {
@@ -107,6 +129,7 @@ module.exports = {
   getBoardDetail,
   saveColumn,
   removeBoard,
-  createBoard
+  createBoard,
+  getIsCurrentUserNotifiedAboutAttachedBoards,
 };
 

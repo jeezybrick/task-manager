@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const BoardSchema = Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true},
   users: [{ type: Schema.Types.ObjectId, ref: 'User', required: true}],
+  notifiedUsers: [{ type: Schema.Types.ObjectId, ref: 'User', required: false}],
   owner: { type: Schema.Types.ObjectId, ref: 'User', required: true},
   columns: [{ type: Schema.Types.ObjectId, ref: 'Column' }],
   name: {

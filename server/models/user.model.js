@@ -25,6 +25,10 @@ const UserSchema = Schema({
     type: Date,
     default: Date.now
   },
+  isNotifiedAboutBorders: {
+    type: Boolean,
+    required: false
+  },
 }, {
   versionKey: false
 });

@@ -9,6 +9,8 @@ module.exports = router;
 // получение списка досок, метод - GET
 router.get('', passport.authenticate('jwt', {session: false}), boardCtrl.getBoards);
 
+router.get('/checkIsNotified', passport.authenticate('jwt', {session: false}), boardCtrl.getIsCurrentUserNotifiedAboutAttachedBoards);
+
 // получение детали доски по id
 router.get('/:boardId', passport.authenticate('jwt', {session: false}), boardCtrl.getBoardDetail);
 
@@ -20,3 +22,5 @@ router.delete('/:boardId', passport.authenticate('jwt', {session: false}), board
 
 // создание доски, метод - POST
 router.post('/', passport.authenticate('jwt', {session: false}), boardCtrl.createBoard);
+
+
