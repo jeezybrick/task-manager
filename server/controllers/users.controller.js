@@ -7,7 +7,7 @@ function getUsers(req, res) {
 
   // Вытаскиваем с БД список пользователей
   // exec -- exucution -выполнение запроса в БД
-  User.find().exec( (err, users) => {
+  User.find().where('_id').ne(req.user._id).exec( (err, users) => {
     if (err) {
       res.status(404).send({message: errorMessage});
     }
