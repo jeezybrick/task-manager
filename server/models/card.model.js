@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
-const User = require('./user.model');
-const Note = require('./note.model');
 const Schema = mongoose.Schema;
 
 const CardSchema = Schema({
   column: { type: Schema.Types.ObjectId, ref: 'Column', required: true },
   owner: { type: Schema.Types.ObjectId, ref: 'User', required: true},
+  users: [{ type: Schema.Types.ObjectId, ref: 'User', required: true}],
+  notifiedUsers: [{ type: Schema.Types.ObjectId, ref: 'User', required: false}],
   notes: [{ type: Schema.Types.ObjectId, ref: 'Note' }],
   name: {
     type: String,

@@ -20,6 +20,7 @@ function getCardNotes(req, res) {
 // сохранение карточки в БД
 async function createNote(req, res) {
 
+
   // вытаскиваем с БД карточку
   const card = await Card.findById(req.params.cardId);
 

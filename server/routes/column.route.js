@@ -15,3 +15,5 @@ router.post('/:columnId/cards', passport.authenticate('jwt', {session: false}), 
 
 // удаление колонки с БД
 router.delete('/:columnId', passport.authenticate('jwt', {session: false}),columnCtrl.removeColumn);
+
+router.get('/:columnId/cards', passport.authenticate('jwt', {session: false}), columnCtrl.getCards);

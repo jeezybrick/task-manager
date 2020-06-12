@@ -19,8 +19,20 @@ function getColumns(req, res) {
 
 }
 
+function getCards(req, res) {
+
+  Card.find({ column: req.params.columnId }).exec( (err, cards) => {
+    if (err) {
+      res.status(404).send({message: errorMessage});
+    }
+    res.json(cards);
+  });
+
+}
+
 // сохранение карточки в БД
 async function createCard (req, res) {
+  const users = req.body.users || [];
 
   // вытаскиваем с БД колонку, которой будет принадлежать карточка
   const column = await Column.findById(req.params.columnId);
@@ -31,7 +43,9 @@ async function createCard (req, res) {
     ...req.body,
     position: column.cards.length + 1,
     owner: req.user._id,
-    column: column._id
+    column: column._id,
+    users: [...users, req.user._id],
+    notifiedUsers: [req.user._id],
   };
 
   // засовываем данные в модель
@@ -76,6 +90,7 @@ async function removeColumn (req, res) {
 module.exports = {
   getColumns,
   createCard,
-  removeColumn
+  removeColumn,
+  getCards,
 };
 
