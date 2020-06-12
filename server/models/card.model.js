@@ -9,8 +9,8 @@ const CardSchema = Schema({
   notes: [{ type: Schema.Types.ObjectId, ref: 'Note' }],
   priority: {
     type: String,
-    required: true,
     enum : ['', 'low', 'medium', 'high'],
+    default: '',
   },
   name: {
     type: String,
