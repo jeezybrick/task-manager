@@ -125,10 +125,12 @@ async function updateCardPosition(req, res) {
     card.position = req.body.currentIndex;
     await card.save();
   }
-  // вытаскиваем колонки
-  const columns = await Column.find({ owner: req.user._id, board: currentColumn.board}).populate({ path: 'cards', options: { sort: 'position' }}).exec();
+  const cards = await Card
+    .find({ column: req.body.currentColumnId })
+    .sort('position')
+    .exec();
 
-  res.json(columns);
+  res.json(cards);
 }
 
 // обновление данных заметки с БД
