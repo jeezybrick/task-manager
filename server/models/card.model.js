@@ -7,6 +7,11 @@ const CardSchema = Schema({
   users: [{ type: Schema.Types.ObjectId, ref: 'User', required: true}],
   notifiedUsers: [{ type: Schema.Types.ObjectId, ref: 'User', required: false}],
   notes: [{ type: Schema.Types.ObjectId, ref: 'Note' }],
+  priority: {
+    type: String,
+    required: true,
+    enum : ['', 'low', 'medium', 'high'],
+  },
   name: {
     type: String,
     required: true
