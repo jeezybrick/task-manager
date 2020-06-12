@@ -44,6 +44,7 @@ async function createNote(req, res) {
 // обновление позиции карточки
 async function updateCardPosition(req, res) {
 
+
   // вытаскиваем деталь карточки с БД
   const card = await Card.findById(req.params.cardId);
 
@@ -107,18 +108,22 @@ async function updateCardPosition(req, res) {
       currentColumnCards = await Card.find({column: req.body.currentColumnId})
         .where('position')
         .lte(req.body.currentIndex)
-        .gte(req.body.previousIndex).exec();
+        .gt(req.body.previousIndex).exec();
 
       await offsetPosition(card, currentColumnCards, req.body.currentIndex);
+
     } else {
       // если мы переместили карточку вверх - находим карточку ниже текущего положения и выше старого их сдвигаем вниз
       currentColumnCards = await Card.find({column: req.body.currentColumnId})
         .where('position')
         .gte(req.body.currentIndex)
-        .lte(req.body.previousIndex).exec();
+        .lt(req.body.previousIndex).exec();
 
       await offsetPosition(card, currentColumnCards, req.body.currentIndex, false);
     }
+
+    card.position = req.body.currentIndex;
+    await card.save();
   }
   // вытаскиваем колонки
   const columns = await Column.find({ owner: req.user._id, board: currentColumn.board}).populate({ path: 'cards', options: { sort: 'position' }}).exec();

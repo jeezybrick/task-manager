@@ -21,7 +21,10 @@ function getColumns(req, res) {
 
 function getCards(req, res) {
 
-  Card.find({ column: req.params.columnId }).exec( (err, cards) => {
+  Card
+    .find({ column: req.params.columnId })
+    .sort('position')
+    .exec( (err, cards) => {
     if (err) {
       res.status(404).send({message: errorMessage});
     }
@@ -41,7 +44,7 @@ async function createCard (req, res) {
   // позиция = общему количеству карточек + 1
   const cardData = {
     ...req.body,
-    position: column.cards.length + 1,
+    position: column.cards.length,
     owner: req.user._id,
     column: column._id,
     users: [...users, req.user._id],
