@@ -55,14 +55,12 @@ async function createCard (req, res) {
     notifiedUsers: [req.user._id],
   };
 
-  console.log(cardData);
-  console.log(req.body);
-
   // засовываем данные в модель
   const newCard = new Card(cardData);
 
   // сохраняем данные
-  const savedCard = await newCard.save();
+  let savedCard = await newCard.save();
+  savedCard = await Card.findById(savedCard._id).populate('users')
 
   // добавляем ID карточки в массив карточек колонки
   await Column.findOneAndUpdate({_id: column._id}, {$push: {cards: savedCard._id}});
