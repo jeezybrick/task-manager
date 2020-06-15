@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Card = require('../models/card.model');
 const Schema = mongoose.Schema;
 
 const NoteSchema = Schema({
@@ -20,8 +19,6 @@ const NoteSchema = Schema({
 });
 
 NoteSchema.pre('remove',{ document: true, query: true }, async function (next) {
-
-  console.log('Note pre remove');
 
   try {
     await mongoose.model('Card').findOneAndUpdate(

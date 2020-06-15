@@ -14,7 +14,7 @@ function getBoards(req, res) {
     .populate({
       path: 'columns',
       populate: {path: 'cards', options: {sort: 'position'}}
-    },)
+    })
     .populate({
       path: 'users',
     })

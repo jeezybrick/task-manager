@@ -23,6 +23,10 @@ function getCards(req, res) {
 
   Card
     .find({ column: req.params.columnId })
+    .populate({
+      path: 'notes',
+      populate: {path: 'owner'}
+    })
     .sort('position')
     .exec( (err, cards) => {
     if (err) {
@@ -66,7 +70,7 @@ async function createCard (req, res) {
 }
 
 // удаление колонки с БД
-async function removeColumn (req, res) {
+async function removeColumn(req, res) {
 
   // вытаскиваем деталь колонки с БД вместе с ее владельцем
   const column = await Column.findById({_id: req.params.columnId}).populate('owner');

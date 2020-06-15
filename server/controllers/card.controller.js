@@ -20,7 +20,6 @@ function getCardNotes(req, res) {
 // сохранение карточки в БД
 async function createNote(req, res) {
 
-
   // вытаскиваем с БД карточку
   const card = await Card.findById(req.params.cardId);
 
@@ -31,14 +30,14 @@ async function createNote(req, res) {
   const newNote = new Note(noteData);
 
   // сохраняем данные
-  const savedNote = await newNote.save();
+  let savedNote = await newNote.save();
+  savedNote = await Note.findById(savedNote._id).populate('owner');
 
   // добавляем ID заметки в массив заметок карточки
   await Card.findOneAndUpdate({_id: card._id}, {$push: {notes: savedNote._id}});
 
   // отдаем сохраненную заметку
   res.json(savedNote);
-
 }
 
 // обновление позиции карточки
