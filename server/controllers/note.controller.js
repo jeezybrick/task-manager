@@ -28,6 +28,22 @@ async function updateNote(req, res) {
 
 }
 
+async function addLike(req, res) {
+  const note = await Note
+    .findOneAndUpdate({_id: req.params.noteId}, {$push: {likes: req.user._id}}, {new: true})
+    .exec();
+
+  res.json(note);
+}
+
+async function removeLike(req, res) {
+  const note = await Note
+    .findOneAndUpdate({_id: req.params.noteId}, {$pull: {likes: req.user_id}}, {new: true})
+    .exec();
+
+  res.json(note);
+}
+
 // удаление заметки с БД
 async function removeNote(req, res) {
 
@@ -55,6 +71,8 @@ async function removeNote(req, res) {
 // чтобы импортировать их и использовать в других файлах, например в роутинге
 module.exports = {
   updateNote,
-  removeNote
+  removeNote,
+  addLike,
+  removeLike,
 };
 

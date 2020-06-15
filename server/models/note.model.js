@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const NoteSchema = Schema({
   card: { type: Schema.Types.ObjectId, ref: 'Card', required: true },
   owner: { type: Schema.Types.ObjectId, ref: 'User', required: true},
+  likes: [{ type: Schema.Types.ObjectId, ref: 'User', required: false}],
   name: {
     type: String,
     required: true
