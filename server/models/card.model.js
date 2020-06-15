@@ -16,6 +16,10 @@ const CardSchema = Schema({
     type: String,
     required: true
   },
+  description: {
+    type: String,
+    required: false
+  },
   position: {
     type: Number
   },

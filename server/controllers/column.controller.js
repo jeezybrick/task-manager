@@ -20,7 +20,6 @@ function getColumns(req, res) {
 }
 
 function getCards(req, res) {
-
   Card
     .find({ column: req.params.columnId })
     .populate({
@@ -55,6 +54,9 @@ async function createCard (req, res) {
     users: [...users, req.user._id],
     notifiedUsers: [req.user._id],
   };
+
+  console.log(cardData);
+  console.log(req.body);
 
   // засовываем данные в модель
   const newCard = new Card(cardData);
