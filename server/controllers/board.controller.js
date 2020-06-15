@@ -70,8 +70,19 @@ async function saveColumn(req, res) {
 }
 
 async function addUsersToBoard(req, res) {
-  const board = await Board.findOneAndUpdate({_id: req.params.boardId}, {$push: {users: req.body.users}}).exec();
-  res.json(board);
+  const board = await Board
+    .findOneAndUpdate({_id: req.params.boardId}, {$push: {users: {$each: req.body.users}}}, {new: true})
+    .populate('users')
+    .exec();
+  res.json(board.users);
+}
+
+async function removeUsersFromBoard(req, res) {
+  const board = await Board
+    .findOneAndUpdate({_id: req.params.boardId}, {$pull: { users: { $in: req.body.users }}}, {new: true, multi: true})
+    .populate('users')
+    .exec();
+  res.json(board.users);
 }
 
 // удаление доски с БД
@@ -143,5 +154,6 @@ module.exports = {
   createBoard,
   getIsCurrentUserNotifiedAboutAttachedBoards,
   addUsersToBoard,
+  removeUsersFromBoard,
 };
 

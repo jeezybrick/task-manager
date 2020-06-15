@@ -27,6 +27,7 @@ function getCards(req, res) {
       path: 'notes',
       populate: {path: 'owner'}
     })
+    .populate('users')
     .sort('position')
     .exec( (err, cards) => {
     if (err) {

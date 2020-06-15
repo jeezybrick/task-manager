@@ -13,6 +13,8 @@ router.get('/checkIsNotified', passport.authenticate('jwt', {session: false}), b
 
 router.post('/:boardId/add-users', passport.authenticate('jwt', {session: false}), boardCtrl.addUsersToBoard);
 
+router.post('/:boardId/remove-users', passport.authenticate('jwt', {session: false}), boardCtrl.removeUsersFromBoard);
+
 // получение детали доски по id
 router.get('/:boardId', passport.authenticate('jwt', {session: false}), boardCtrl.getBoardDetail);
 
