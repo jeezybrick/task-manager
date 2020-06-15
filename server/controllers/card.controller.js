@@ -151,7 +151,8 @@ async function updateCard(req, res) {
   const updatedCard = new Card(cardData);
 
   // сохраняем данные
-  const savedCard = await updatedCard.save();
+  let savedCard = await updatedCard.save();
+  savedCard = await Card.findById(savedCard._id).populate('users')
 
   // возвращаем обновленную карточку
   res.json(savedCard);
