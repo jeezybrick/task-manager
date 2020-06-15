@@ -11,6 +11,10 @@ router.get('/:cardId/notes', passport.authenticate('jwt', {session: false}), car
 // сохранение заметки в БД
 router.post('/:cardId/notes', passport.authenticate('jwt', {session: false}), cardCtrl.createNote);
 
+router.post('/:cardId/add-users', passport.authenticate('jwt', {session: false}), cardCtrl.addUsersToCard);
+
+router.post('/:cardId/remove-users', passport.authenticate('jwt', {session: false}), cardCtrl.removeUsersFromCard);
+
 // обновление позиции карточки
 router.patch('/:cardId/update-position', passport.authenticate('jwt', {session: false}), cardCtrl.updateCardPosition);
 

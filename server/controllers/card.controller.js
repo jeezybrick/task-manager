@@ -180,7 +180,14 @@ async function removeCard(req, res) {
   // удаляем ID карточки в массива карточек родительской колонки
   await Column.findOneAndUpdate({_id: card.column}, {$pull: {cards: card._id}});
 
-  const columnCards = await Card.find({column: card.column}).sort('position').exec();
+  const columnCards = await Card.find({column: card.column})
+    .populate({
+      path: 'notes',
+      populate: {path: 'owner'}
+    })
+    .populate('users')
+    .sort('position')
+    .exec();
 
   // возвращаем карточки
   res.json(columnCards);
@@ -206,6 +213,22 @@ async function offsetPosition(item, array, currentIndex = null, toDown = true) {
   }
 }
 
+async function addUsersToCard(req, res) {
+  const board = await Card
+    .findOneAndUpdate({_id: req.params.cardId}, {$push: {users: {$each: req.body.users}}}, {new: true})
+    .populate('users')
+    .exec();
+  res.json(board.users);
+}
+
+async function removeUsersFromCard(req, res) {
+  const board = await Card
+    .findOneAndUpdate({_id: req.params.cardId}, {$pull: { users: { $in: req.body.users }}}, {new: true, multi: true})
+    .populate('users')
+    .exec();
+  res.json(board.users);
+}
+
 // экспортируем функции для того,
 // чтобы импортировать их и использовать в других файлах, например в роутинге
 module.exports = {
@@ -213,6 +236,8 @@ module.exports = {
   createNote,
   updateCardPosition,
   updateCard,
-  removeCard
+  removeCard,
+  addUsersToCard,
+  removeUsersFromCard,
 };
 
