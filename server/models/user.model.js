@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
+const path = require('path');
 const Schema = mongoose.Schema;
+const filePluginLib = require('mongoose-file');
+const filePlugin = filePluginLib.filePlugin;
+const make_upload_to_model = filePluginLib.make_upload_to_model;
 
+const uploads_base = path.join(__dirname, "uploads");
+const uploads = path.join(uploads_base, "u");
 const defaultAvatarUrl = 'https://ionicframework.com/docs/demos/api/avatar/avatar.svg';
 
 const UserSchema = Schema({
@@ -34,6 +40,12 @@ const UserSchema = Schema({
   },
 }, {
   versionKey: false
+});
+
+UserSchema.plugin(filePlugin, {
+  name: "photo",
+  upload_to: make_upload_to_model(uploads, 'avatars'),
+  relative_to: uploads_base
 });
 
 

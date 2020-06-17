@@ -28,10 +28,16 @@ function getUserDetails(req, res) {
     });
 }
 
+function uploadAvatar(req, res) {
+  console.log(req.files.foo); // the uploaded file object
+  res.json(true);
+}
+
 // экспортируем функции для того,
 // чтобы импортировать их и использовать в других файлах, например в роутинге
 module.exports = {
   getUsers,
   getUserDetails,
+  uploadAvatar,
 };
 

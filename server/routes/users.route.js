@@ -11,3 +11,4 @@ module.exports = router;
 router.get('', passport.authenticate('jwt', {session: false}), usersCtrl.getUsers);
 
 router.get('/:userId', passport.authenticate('jwt', {session: false}), usersCtrl.getUserDetails);
+router.post('/:userId/upload-avatar', passport.authenticate('jwt', {session: false}), usersCtrl.uploadAvatar);
