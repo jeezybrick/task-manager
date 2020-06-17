@@ -79,8 +79,6 @@ async function addUsersToBoard(req, res) {
     .populate('users')
     .exec();
 
-  console.log(global.socketUsers);
-
   board.users.forEach((user) => {
     const socketId = global.socketUsers.find(item => item.userId === user._id);
 
@@ -139,13 +137,6 @@ function createBoard(req, res) {
     if (err) {
        res.status(403).send({message: errorMessage});
     }
-
-    board.users.forEach((user) => {
-      const socketUser = global.socketUsers.find(item => item.userId.toString() === user.toString());
-      if (socketUser) {
-        global.io.to(socketUser.socketId).emit(boardSocketChannelNames.attachedToBoardChannelName, {board});
-      }
-    })
     res.json(board);
   });
 
