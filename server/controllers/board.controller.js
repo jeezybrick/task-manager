@@ -2,6 +2,10 @@ const Board = require('../models/board.model');
 const Column = require('../models/column.model');
 const utils = require('../shared/utils');
 
+const boardSocketChannelNames = {
+  attachedToBoardChannelName: 'attachedToBoard',
+  deAttachedToBoardChannelName: 'deAttachedFromBoard',
+}
 const errorMessage = 'Упс, что то пошло не так :(';
 
 // получение списка досок, метод - GET
@@ -74,6 +78,17 @@ async function addUsersToBoard(req, res) {
     .findOneAndUpdate({_id: req.params.boardId}, {$push: {users: {$each: req.body.users}}}, {new: true})
     .populate('users')
     .exec();
+
+  console.log(global.socketUsers);
+
+  board.users.forEach((user) => {
+    const socketId = global.socketUsers.find(item => item.userId === user._id);
+
+    if (socketId) {
+      global.io.to(socketId).emit(boardSocketChannelNames.attachedToBoardChannelName, {board});
+    }
+  })
+
   res.json(board.users);
 }
 
@@ -124,6 +139,13 @@ function createBoard(req, res) {
     if (err) {
        res.status(403).send({message: errorMessage});
     }
+
+    board.users.forEach((user) => {
+      const socketUser = global.socketUsers.find(item => item.userId.toString() === user.toString());
+      if (socketUser) {
+        global.io.to(socketUser.socketId).emit(boardSocketChannelNames.attachedToBoardChannelName, {board});
+      }
+    })
     res.json(board);
   });
 

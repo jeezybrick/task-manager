@@ -59,6 +59,7 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "rxjs": "^6.5.5",
+    "socket.io": "^2.3.0",
     "subsink": "^1.0.1",
     "swagger-ui-express": "^4.0.2",
     "tslib": "^1.10.0",
