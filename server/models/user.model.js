@@ -33,22 +33,22 @@ const UserSchema = Schema({
     type: Date,
     default: Date.now
   },
-  // avatar: {
-  //   type: String,
-  //   required: false,
-  //   default: defaultAvatarUrl
-  // },
+  avatar: {
+    type: String,
+    required: false,
+    default: defaultAvatarUrl
+  },
 }, {
   versionKey: false
 });
 
-UserSchema.plugin(filePlugin, {
-  name: "avatar",
-  upload_to: make_upload_to_model(uploads, 'avatars'),
-  relative_to: uploads_base,
-  required: false,
-  default: defaultAvatarUrl,
-});
+// UserSchema.plugin(filePlugin, {
+//   name: "avatar",
+//   upload_to: make_upload_to_model(uploads, 'avatars'),
+//   relative_to: uploads_base,
+//   required: false,
+//   default: defaultAvatarUrl,
+// });
 
 
 module.exports = mongoose.model('User', UserSchema);
