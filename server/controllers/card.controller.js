@@ -231,33 +231,29 @@ async function removeUsersFromCard(req, res) {
   res.json(card.users);
 }
 
-async function logTime(req, res) {
-  const parseDateFormat = "yyyy-mm-dd";
-  const data = {...req.body};
-  const card = await Card.findById({_id: req.params.cardId}).exec();
-  const logTimeByDate = card.loggedTime.find(item => {
-    return dateFormat(item.date, parseDateFormat) === dateFormat(data.date, parseDateFormat);
-  });
-
-  if (logTimeByDate) {
-    card.loggedTime = card.loggedTime.map(item => {
-      if(item._id === logTimeByDate._id) {
-        return {
-          ...item,
-          workedValue: item.workedValue + data.workedValue,
-        }
+function logTime(req, res) {
+  Card
+    .findOneAndUpdate({_id: req.params.cardId}, {$push: {loggedTime: {...req.body}}}, {new: true})
+    .populate('users')
+    .exec((err, card) => {
+      if (err) {
+        res.status(404).send({message: 'Oh uh, something went wrong'});
       }
-      return item;
-    });
-  }
+      res.json(card);
+    })
+}
 
-  card.loggedTime.push(data);
+function estimateTime(req, res) {
+  Card
+    .findOneAndUpdate({_id: req.params.cardId}, {estimateTime: {...req.body}}, {new: true})
+    .populate('users')
+    .exec((err, card) => {
+      if (err) {
+        res.status(404).send({message: 'Oh uh, something went wrong'});
+      }
+      res.json(card);
+    })
 
-  const updatedCard = new Card(card);
-  let savedCard = await updatedCard.save();
-  savedCard = await Card.findById(savedCard._id).populate('users')
-
-  res.json(savedCard);
 }
 
 // экспортируем функции для того,
@@ -271,5 +267,6 @@ module.exports = {
   addUsersToCard,
   removeUsersFromCard,
   logTime,
+  estimateTime,
 };
 

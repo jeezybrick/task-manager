@@ -27,30 +27,32 @@ const CardSchema = Schema({
   },
   loggedTime: [
     {
-      date: [{
+      date: {
         type: Date,
         required: true
-      }],
-      workedValue: {
+      },
+      value: {
         type: Number,
         required: true
       },
-      workedSuffix: {
-        type: String,
-        required: true,
-        enum: logTimeSuffixEnum,
-      },
-      estimateValue: {
-        type: Number,
-        required: true
-      },
-      estimateSuffix: {
+      suffix: {
         type: String,
         required: true,
         enum: logTimeSuffixEnum,
       },
     }
   ],
+  estimateTime: {
+    value: {
+      type: Number,
+      required: false
+    },
+    suffix: {
+      type: String,
+      required: false,
+      enum: logTimeSuffixEnum,
+    },
+  },
   createdAt: {
     type: Date,
     default: Date.now

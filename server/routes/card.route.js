@@ -17,6 +17,8 @@ router.post('/:cardId/remove-users', passport.authenticate('jwt', {session: fals
 
 router.post('/:cardId/log-time', passport.authenticate('jwt', {session: false}), cardCtrl.logTime);
 
+router.post('/:cardId/estimate-time', passport.authenticate('jwt', {session: false}), cardCtrl.estimateTime);
+
 // обновление позиции карточки
 router.patch('/:cardId/update-position', passport.authenticate('jwt', {session: false}), cardCtrl.updateCardPosition);
 
