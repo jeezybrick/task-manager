@@ -29,8 +29,14 @@ function getUserDetails(req, res) {
 }
 
 function uploadAvatar(req, res) {
-  console.log(req.files.foo); // the uploaded file object
-  res.json(true);
+  User.findOneAndUpdate({_id: req.user._id}, {avatar: req.file}, {upsert: false, new: true})
+    .exec((err, user) => {
+      if (err) {
+        res.status(403).send({email: 'Такой email уже существует'});
+      }
+      // возвращаем обновленного пользователя
+      res.json(user);
+    });
 }
 
 // экспортируем функции для того,

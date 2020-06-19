@@ -1,9 +1,19 @@
 // config should be imported before importing any other file
+const express = require('express');
+const path = require('path');
 const config = require('./config/config');
 const app = require('./config/express');
+const fileUpload = require('express-fileupload');
+
 let server = require('http').createServer(app);
+app.use(express.static(path.join(__dirname, 'uploads')));
 let io = require('socket.io')(server);
 require('./config/mongoose');
+
+app.use(fileUpload({
+  limits: { fileSize: 5 * 1024 * 1024 },
+
+}));
 
 global.io = io;
 global.socketUsers = [];

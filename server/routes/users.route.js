@@ -2,6 +2,8 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
+const multer  = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
 const usersCtrl = require('../controllers/users.controller');
 
@@ -11,4 +13,4 @@ module.exports = router;
 router.get('', passport.authenticate('jwt', {session: false}), usersCtrl.getUsers);
 
 router.get('/:userId', passport.authenticate('jwt', {session: false}), usersCtrl.getUserDetails);
-router.post('/:userId/upload-avatar', passport.authenticate('jwt', {session: false}), usersCtrl.uploadAvatar);
+router.post('/:userId/upload-avatar', passport.authenticate('jwt', {session: false}), upload.single('avatar'),  usersCtrl.uploadAvatar);

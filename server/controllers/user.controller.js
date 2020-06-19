@@ -23,10 +23,8 @@ async function insert(user) {
 
 // обновление данных пользователя с БД
 async function updateUser(req, res) {
-  console.log(req.body);
-
   // обновляем данные пользователя
-  User.findOneAndUpdate({_id: req.user._id}, req.body, {upsert: false, new: true})
+  User.findOneAndUpdate({_id: req.user._id}, {...req.body}, {upsert: false, new: true})
     .exec((err, user) => {
       if (err) {
         res.status(403).send({email: 'Такой email уже существует'});
