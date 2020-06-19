@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const logTimeSuffixEnum = ['m', 'h'];
+
 const CardSchema = Schema({
   column: { type: Schema.Types.ObjectId, ref: 'Column', required: true },
   owner: { type: Schema.Types.ObjectId, ref: 'User', required: true},
@@ -23,6 +25,32 @@ const CardSchema = Schema({
   position: {
     type: Number
   },
+  loggedTime: [
+    {
+      date: [{
+        type: Date,
+        required: true
+      }],
+      workedValue: {
+        type: Number,
+        required: true
+      },
+      workedSuffix: {
+        type: String,
+        required: true,
+        enum: logTimeSuffixEnum,
+      },
+      estimateValue: {
+        type: Number,
+        required: true
+      },
+      estimateSuffix: {
+        type: String,
+        required: true,
+        enum: logTimeSuffixEnum,
+      },
+    }
+  ],
   createdAt: {
     type: Date,
     default: Date.now

@@ -2,6 +2,7 @@ const Column = require('../models/column.model');
 const Card = require('../models/card.model');
 const Note = require('../models/note.model');
 const utils = require('../shared/utils');
+const dateFormat = require('dateformat');
 
 // получение списка колонок, метод - GET
 function getCardNotes(req, res) {
@@ -125,7 +126,7 @@ async function updateCardPosition(req, res) {
     await card.save();
   }
   const cards = await Card
-    .find({ column: req.body.currentColumnId })
+    .find({column: req.body.currentColumnId})
     .sort('position')
     .exec();
 
@@ -215,19 +216,48 @@ async function offsetPosition(item, array, currentIndex = null, toDown = true) {
 }
 
 async function addUsersToCard(req, res) {
-  const board = await Card
+  const card = await Card
     .findOneAndUpdate({_id: req.params.cardId}, {$push: {users: {$each: req.body.users}}}, {new: true})
     .populate('users')
     .exec();
-  res.json(board.users);
+  res.json(card.users);
 }
 
 async function removeUsersFromCard(req, res) {
-  const board = await Card
-    .findOneAndUpdate({_id: req.params.cardId}, {$pull: { users: { $in: req.body.users }}}, {new: true, multi: true})
+  const card = await Card
+    .findOneAndUpdate({_id: req.params.cardId}, {$pull: {users: {$in: req.body.users}}}, {new: true, multi: true})
     .populate('users')
     .exec();
-  res.json(board.users);
+  res.json(card.users);
+}
+
+async function logTime(req, res) {
+  const parseDateFormat = "yyyy-mm-dd";
+  const data = {...req.body};
+  const card = await Card.findById({_id: req.params.cardId}).exec();
+  const logTimeByDate = card.loggedTime.find(item => {
+    return dateFormat(item.date, parseDateFormat) === dateFormat(data.date, parseDateFormat);
+  });
+
+  if (logTimeByDate) {
+    card.loggedTime = card.loggedTime.map(item => {
+      if(item._id === logTimeByDate._id) {
+        return {
+          ...item,
+          workedValue: item.workedValue + data.workedValue,
+        }
+      }
+      return item;
+    });
+  }
+
+  card.loggedTime.push(data);
+
+  const updatedCard = new Card(card);
+  let savedCard = await updatedCard.save();
+  savedCard = await Card.findById(savedCard._id).populate('users')
+
+  res.json(savedCard);
 }
 
 // экспортируем функции для того,
@@ -240,5 +270,6 @@ module.exports = {
   removeCard,
   addUsersToCard,
   removeUsersFromCard,
+  logTime,
 };
 
