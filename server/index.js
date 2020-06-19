@@ -5,7 +5,7 @@ const config = require('./config/config');
 const app = require('./config/express');
 let server = require('http').createServer(app);
 
-app.use('/uploads',express.static(path.join(__dirname, '/uploads')));
+app.use('/avatars',express.static(path.join(__dirname, '/avatars')));
 let io = require('socket.io')(server);
 require('./config/mongoose');
 
