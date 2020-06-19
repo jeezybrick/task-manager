@@ -21,6 +21,8 @@ router.get('/:boardId', passport.authenticate('jwt', {session: false}), boardCtr
 // сохранение колонки в БД
 router.post('/:boardId/columns', passport.authenticate('jwt', {session: false}), boardCtrl.saveColumn);
 
+router.get('/:boardId/columns', passport.authenticate('jwt', {session: false}), boardCtrl.getColumns);
+
 // удаление доски с БД
 router.delete('/:boardId', passport.authenticate('jwt', {session: false}), boardCtrl.removeBoard);
 

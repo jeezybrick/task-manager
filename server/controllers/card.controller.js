@@ -44,7 +44,6 @@ async function createNote(req, res) {
 // обновление позиции карточки
 async function updateCardPosition(req, res) {
 
-
   // вытаскиваем деталь карточки с БД
   const card = await Card.findById(req.params.cardId);
 
@@ -93,7 +92,6 @@ async function updateCardPosition(req, res) {
     await previousColumn.save();
     await currentColumn.save();
     await card.save();
-
 
     // сдвигаем и сохраняем позиции для карточек преыущей и текущей колонки
     await offsetPosition(card, previousColumnCards, req.body.currentIndex);

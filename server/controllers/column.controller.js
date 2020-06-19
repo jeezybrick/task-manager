@@ -27,6 +27,7 @@ function getCards(req, res) {
       populate: {path: 'owner'}
     })
     .populate('users')
+    .populate('column')
     .sort('position')
     .exec( (err, cards) => {
     if (err) {
@@ -38,7 +39,7 @@ function getCards(req, res) {
 }
 
 // сохранение карточки в БД
-async function createCard (req, res) {
+async function createCard(req, res) {
   const users = req.body.users || [];
 
   // вытаскиваем с БД колонку, которой будет принадлежать карточка

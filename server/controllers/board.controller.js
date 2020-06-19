@@ -157,6 +157,19 @@ async function getIsCurrentUserNotifiedAboutAttachedBoards(req, res) {
   res.json(!boards.length);
 }
 
+function getColumns(req, res) {
+
+  Board.findById(req.params.boardId)
+    .populate('columns')
+    .exec((err, board) => {
+      if (err) {
+        res.status(404).send({message: errorMessage});
+      }
+      res.json(board.columns);
+    });
+
+}
+
 // экспортируем функции для того,
 // чтобы импортировать их и использовать в других файлах, например в роутинге
 module.exports = {
@@ -168,5 +181,6 @@ module.exports = {
   getIsCurrentUserNotifiedAboutAttachedBoards,
   addUsersToBoard,
   removeUsersFromBoard,
+  getColumns,
 };
 
