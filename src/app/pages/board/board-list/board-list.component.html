@@ -5,8 +5,6 @@
   </button>
 </div>
 
-  <img src="/test/1592822444721screenshot.png" alt="aa">
-
 <ng-container *ngIf="!isBoardsListLoading && boards && boards.length">
   <mat-list>
     <mat-list-item class="board-item" *ngFor="let board of boards" (click)="goToBoardPage(board._id)">

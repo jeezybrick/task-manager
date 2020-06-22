@@ -30,7 +30,6 @@ function getUserDetails(req, res) {
 
 function uploadAvatar(req, res) {
   const fullUrl = req.protocol + '://' + req.get('host') + '/avatars/' + req.user._id + '.' + req.file.originalname.split('.').pop();
-  // const fullUrl = req.protocol + '://' + req.get('host') + '/test/' + Date.now() + req.file.originalname;
 
   User.findOneAndUpdate({_id: req.user._id}, {avatar: fullUrl}, {upsert: false, new: true})
     .exec((err, user) => {
