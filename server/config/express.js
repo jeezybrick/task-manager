@@ -21,19 +21,14 @@ if (config.env === 'development') {
 }
 
 const distDir = '../../dist/';
+const testDir = '../test/';
 
-//
-app.use(express.static(path.join(__dirname, distDir)));
-app.use(/^((?!(api)).)*/, (req, res) => {
-  res.sendFile(path.join(__dirname, distDir + '/index.html'));
-});
-
- //React server
-app.use(express.static(path.join(__dirname, '../../node_modules/material-dashboard-react/dist')))
-app.use(/^((?!(api)).)*/, (req, res) => {
-res.sendFile(path.join(__dirname, '../../dist/index.html'));
-});
-
+// app.use(express.static(path.join(__dirname, distDir)));
+app.use('/avatars', express.static(path.join(__dirname, '../avatars')));
+app.use(express.static(path.join(__dirname, testDir)));
+// app.use(/^((?!(api)).)*/, (req, res) => {
+//   res.sendFile(path.join(__dirname, distDir + '/index.html'));
+// });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -46,7 +41,18 @@ app.use(methodOverride());
 app.use(helmet());
 
 // enable CORS - Cross Origin Resource Sharing
-app.use(cors());
+const whitelist = ['http://localhost:8100', 'https://ionicfirst.herokuapp.com']
+const corsOptionsDelegate = function (req, callback) {
+  let corsOptions;
+  if (whitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false } // disable CORS for this request
+  }
+
+  callback(null, corsOptions) // callback expects two parameters: error and options
+}
+app.use(cors(corsOptionsDelegate));
 
 app.use(passport.initialize());
 
@@ -63,7 +69,6 @@ app.use((req, res, next) => {
 
 // error handler, send stacktrace only during development
 app.use((err, req, res, next) => {
-
   // customize Joi validation errors
   if (err.isJoi) {
     err.message = err.details.map(e => e.message).join("; ");
@@ -75,5 +80,6 @@ app.use((err, req, res, next) => {
   });
   next(err);
 });
+
 
 module.exports = app;

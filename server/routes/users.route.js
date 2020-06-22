@@ -9,7 +9,8 @@ const storage = multer.diskStorage({
     cb(null, path.join(__dirname, '../avatars'))
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + file.originalname)
+    const filename = req.user._id + '.' + file.originalname.split('.').pop();
+    cb(null, filename)
   }
 })
 
