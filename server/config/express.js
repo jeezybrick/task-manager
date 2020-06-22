@@ -23,12 +23,12 @@ if (config.env === 'development') {
 const distDir = '../../dist/';
 const testDir = '../test/';
 
-// app.use(express.static(path.join(__dirname, distDir)));
+app.use(express.static(path.join(__dirname, distDir)));
 app.use('/avatars', express.static(path.join(__dirname, '../avatars')));
 app.use(express.static(path.join(__dirname, testDir)));
-// app.use(/^((?!(api)).)*/, (req, res) => {
-//   res.sendFile(path.join(__dirname, distDir + '/index.html'));
-// });
+app.use(/^((?!(api)).)*/, (req, res) => {
+  res.sendFile(path.join(__dirname, distDir + '/index.html'));
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
