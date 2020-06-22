@@ -232,7 +232,12 @@ async function removeUsersFromCard(req, res) {
 function logTime(req, res) {
   Card
     .findOneAndUpdate({_id: req.params.cardId}, {$push: {loggedTime: {...req.body}}}, {new: true})
+    .populate({
+      path: 'notes',
+      populate: {path: 'owner'}
+    })
     .populate('users')
+    .populate('column')
     .exec((err, card) => {
       if (err) {
         res.status(404).send({message: 'Oh uh, something went wrong'});
@@ -244,7 +249,12 @@ function logTime(req, res) {
 function estimateTime(req, res) {
   Card
     .findOneAndUpdate({_id: req.params.cardId}, {estimateTime: {...req.body}}, {new: true})
+    .populate({
+      path: 'notes',
+      populate: {path: 'owner'}
+    })
     .populate('users')
+    .populate('column')
     .exec((err, card) => {
       if (err) {
         res.status(404).send({message: 'Oh uh, something went wrong'});
