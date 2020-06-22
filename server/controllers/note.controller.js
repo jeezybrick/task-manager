@@ -60,11 +60,21 @@ async function removeNote(req, res) {
   await note.remove();
 
   // удаляем ID заметки в массива заметок родительской карточки
-  await Card.findOneAndUpdate({_id: note.card}, {$pull: {notes: note._id}});
+  const card = await Card
+    .findOneAndUpdate({_id: note.card}, {$pull: {notes: note._id}})
+    .findOneAndUpdate({_id: note.card}, {
+      $push: {actions: {message: `Пользователь ${req.user.fullname} удалил заметку.`}}
+    }, {new: true})
+    .populate({
+      path: 'notes',
+      populate: {path: 'owner'}
+    })
+    .populate('users')
+    .populate('column');
 
-  // возвращаем удаленную заметку
-  res.json(note);
+  console.log(card);
 
+  res.json(card);
 }
 
 // экспортируем функции для того,

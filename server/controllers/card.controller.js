@@ -2,7 +2,6 @@ const Column = require('../models/column.model');
 const Card = require('../models/card.model');
 const Note = require('../models/note.model');
 const utils = require('../shared/utils');
-const dateFormat = require('dateformat');
 
 // получение списка колонок, метод - GET
 function getCardNotes(req, res) {
@@ -22,7 +21,7 @@ function getCardNotes(req, res) {
 async function createNote(req, res) {
 
   // вытаскиваем с БД карточку
-  const card = await Card.findById(req.params.cardId);
+  let card = await Card.findById(req.params.cardId);
 
   // сохраняем в переменную данные с фронт энда + владельца заметки и ее картоку
   const noteData = {...req.body, owner: req.user._id, card: card._id};
@@ -35,10 +34,20 @@ async function createNote(req, res) {
   savedNote = await Note.findById(savedNote._id).populate('owner');
 
   // добавляем ID заметки в массив заметок карточки
-  await Card.findOneAndUpdate({_id: card._id}, {$push: {notes: savedNote._id}});
+  card = await Card
+    .findOneAndUpdate({_id: card._id}, {$push: {notes: savedNote._id}})
+    .findOneAndUpdate({_id: req.params.cardId}, {
+      $push: {actions: {message: `Пользователь ${req.user.fullname} добавил заметку.`}}
+    }, {new: true})
+    .populate({
+      path: 'notes',
+      populate: {path: 'owner'}
+    })
+    .populate('users')
+    .populate('column');
 
-  // отдаем сохраненную заметку
-  res.json(savedNote);
+  // отдаем сохраненную карточку
+  res.json(card);
 }
 
 // обновление позиции карточки
@@ -151,7 +160,16 @@ async function updateCard(req, res) {
 
   // сохраняем данные
   let savedCard = await updatedCard.save();
-  savedCard = await Card.findById(savedCard._id).populate('users')
+  savedCard = await Card
+    .findOneAndUpdate({_id: savedCard._id}, {
+      $push: {actions: {message: `Пользователь ${req.user.fullname} отредактировал карточку.`}}
+    }, {new: true})
+    .populate({
+      path: 'notes',
+      populate: {path: 'owner'}
+    })
+    .populate('users')
+    .populate('column');
 
   // возвращаем обновленную карточку
   res.json(savedCard);
@@ -214,24 +232,61 @@ async function offsetPosition(item, array, currentIndex = null, toDown = true) {
 }
 
 async function addUsersToCard(req, res) {
-  const card = await Card
+  const oldCardData = await Card.findById(req.params.cardId).populate('users');
+  const oldUsers = oldCardData.users.map(item => item._id);
+
+  let card = await Card
     .findOneAndUpdate({_id: req.params.cardId}, {$push: {users: {$each: req.body.users}}}, {new: true})
     .populate('users')
     .exec();
-  res.json(card.users);
+
+  const addedUserNames = card.users.filter(item => !oldUsers.includes(item._id)).map(item => item.fullname).join(', ');
+
+  card = await Card
+    .findOneAndUpdate({_id: req.params.cardId}, {
+      $push: {actions: {message: `Пользователь ${req.user.fullname} добавил ${addedUserNames} к карточке.`}}
+    }, {new: true})
+    .populate({
+      path: 'notes',
+      populate: {path: 'owner'}
+    })
+    .populate('users')
+    .populate('column')
+    .exec();
+  res.json(card);
 }
 
 async function removeUsersFromCard(req, res) {
-  const card = await Card
+  const oldCardData = await Card.findById(req.params.cardId).populate('users');
+
+  let card = await Card
     .findOneAndUpdate({_id: req.params.cardId}, {$pull: {users: {$in: req.body.users}}}, {new: true, multi: true})
     .populate('users')
     .exec();
-  res.json(card.users);
+
+  const newUsers = card.users.map(item => item._id);
+  const removedUserNames = oldCardData.users.filter(item => !newUsers.includes(item._id)).map(item => item.fullname).join(', ');
+
+  card = await Card
+    .findOneAndUpdate({_id: req.params.cardId}, {
+      $push: {actions: {message: `Пользователь ${req.user.fullname} удалил ${removedUserNames} с карточки.`}}
+    }, {new: true})
+    .populate({
+      path: 'notes',
+      populate: {path: 'owner'}
+    })
+    .populate('users')
+    .populate('column')
+    .exec();
+  res.json(card);
 }
 
 function logTime(req, res) {
   Card
     .findOneAndUpdate({_id: req.params.cardId}, {$push: {loggedTime: {...req.body}}}, {new: true})
+    .findOneAndUpdate({_id: req.params.cardId}, {
+      $push: {actions: {message: `Пользователь ${req.user.fullname} залогировал время - ${req.body.value}${req.body.suffix}.`}}
+    }, {new: true})
     .populate({
       path: 'notes',
       populate: {path: 'owner'}
@@ -248,7 +303,12 @@ function logTime(req, res) {
 
 function estimateTime(req, res) {
   Card
-    .findOneAndUpdate({_id: req.params.cardId}, {estimateTime: {...req.body}}, {new: true})
+    .findOneAndUpdate({_id: req.params.cardId}, {
+      estimateTime: {...req.body},
+    }, {new: true})
+    .findOneAndUpdate({_id: req.params.cardId}, {
+      $push: {actions: {message: `Пользователь ${req.user.fullname} добавил/изменил оценку - ${req.body.value}${req.body.suffix}.`}}
+     }, {new: true})
     .populate({
       path: 'notes',
       populate: {path: 'owner'}

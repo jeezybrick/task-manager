@@ -54,6 +54,7 @@ async function createCard(req, res) {
     column: column._id,
     users: [...users, req.user._id],
     notifiedUsers: [req.user._id],
+    actions: [{message: `Пользователь ${req.user.fullname} создал карточку.`}]
   };
 
   // засовываем данные в модель
@@ -61,14 +62,13 @@ async function createCard(req, res) {
 
   // сохраняем данные
   let savedCard = await newCard.save();
-  savedCard = await Card.findById(savedCard._id).populate('users')
+  savedCard = await Card.findById(savedCard._id).populate('users');
 
   // добавляем ID карточки в массив карточек колонки
   await Column.findOneAndUpdate({_id: column._id}, {$push: {cards: savedCard._id}});
 
   // отдаем сохраненную карточку
   res.json(savedCard);
-
 }
 
 // удаление колонки с БД

@@ -53,6 +53,18 @@ const CardSchema = Schema({
       enum: logTimeSuffixEnum,
     },
   },
+  actions: [
+    {
+      date: {
+        type: Date,
+        default: Date.now
+      },
+      message: {
+        type: String,
+        required: true
+      },
+    }
+  ],
   createdAt: {
     type: Date,
     default: Date.now
