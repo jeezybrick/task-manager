@@ -29,8 +29,8 @@ function getUserDetails(req, res) {
 }
 
 function uploadAvatar(req, res) {
-  console.log(req.file);
-  User.findOneAndUpdate({_id: req.user._id}, {avatar: '/avatars/' + Date.now() + req.file.originalname}, {upsert: false, new: true})
+  const fullUrl = req.protocol + '://' + req.get('host') + '/avatars/' + Date.now() + req.file.originalname;
+  User.findOneAndUpdate({_id: req.user._id}, {avatar: fullUrl}, {upsert: false, new: true})
     .exec((err, user) => {
       if (err) {
         res.status(403).send({email: 'Такой email уже существует'});

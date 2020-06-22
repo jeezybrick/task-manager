@@ -1,11 +1,20 @@
 // config should be imported before importing any other file
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const config = require('./config/config');
 const app = require('./config/express');
 let server = require('http').createServer(app);
 
-app.use('/avatars',express.static(path.join(__dirname, '/avatars')));
+app.use('/avatars', express.static(path.join(__dirname, '/avatars')));
+app.use(function (req, res, next) {
+  res.setHeader('Access-Control-Allow-Headers', 'accept, authorization, content-type, x-requested-with');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
+  res.setHeader('Access-Control-Allow-Origin', req.header('origin'));
+
+  next();
+});
+
 let io = require('socket.io')(server);
 require('./config/mongoose');
 
@@ -39,7 +48,7 @@ io.on('connection', (socket) => {
 // module.parent check is required to support mocha watch
 // src: https://github.com/mochajs/mocha/issues/1912
 if (!module.parent) {
-  server.listen(config.port, () => {
+  server.listen(config.port, (req, res) => {
     console.info(`server started on port ${config.port} (${config.env})`);
   });
 }
