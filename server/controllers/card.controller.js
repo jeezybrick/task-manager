@@ -101,6 +101,10 @@ async function updateCardPosition(req, res) {
     await previousColumn.save();
     await currentColumn.save();
     await card.save();
+    await Card
+      .findOneAndUpdate({_id: card._id}, {
+        $push: {actions: {message: `Пользователь ${req.user.fullname} переместил карточку с колонки ${previousColumn.name} в колонку ${currentColumn.name}.`}}
+      });
 
     // сдвигаем и сохраняем позиции для карточек преыущей и текущей колонки
     await offsetPosition(card, previousColumnCards, req.body.currentIndex);
@@ -131,9 +135,19 @@ async function updateCardPosition(req, res) {
 
     card.position = req.body.currentIndex;
     await card.save();
+    await Card
+      .findOneAndUpdate({_id: card._id}, {
+        $push: {actions: {message: `Пользователь ${req.user.fullname} поменял позицию карточки.`}}
+      });
   }
   const cards = await Card
     .find({column: req.body.currentColumnId})
+    .populate({
+      path: 'notes',
+      populate: {path: 'owner'}
+    })
+    .populate('users')
+    .populate('column')
     .sort('position')
     .exec();
 
