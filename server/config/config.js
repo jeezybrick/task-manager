@@ -41,6 +41,10 @@ const config = {
   mongo: {
     host: envVars.MONGO_HOST,
     port: envVars.MONGO_PORT
+  },
+  aws: {
+    secretAccessKey: envVars.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: envVars.AWS_ACCESS_KEY_ID
   }
 };
 

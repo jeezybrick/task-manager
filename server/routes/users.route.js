@@ -7,24 +7,12 @@ const multerS3 = require('multer-s3');
 const aws = require('aws-sdk');
 const path = require('path');
 const s3 = new aws.S3();
+const config = require('./config/config');
 
 aws.config.update({
-  secretAccessKey: 'KNOnkVIArpxYePaNzeVm3Ia8tUtaVlBYXdWAXxHy',
-  accessKeyId: 'AKIAJSVFHIBFSST6TUAA',
-  // region: 'us-east-1'
+  secretAccessKey: config.aws.secretAccessKey,
+  accessKeyId: config.aws.accessKeyId,
 });
-
-
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, path.join(__dirname, '../avatars'))
-//   },
-//   filename: function (req, file, cb) {
-//     const filename = req.user._id + '.' + file.originalname.split('.').pop();
-//     cb(null, filename)
-//   }
-// })
-
 
 const upload = multer({
   storage: multerS3({
