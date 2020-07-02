@@ -7,7 +7,7 @@ const multerS3 = require('multer-s3');
 const aws = require('aws-sdk');
 const path = require('path');
 const s3 = new aws.S3();
-const config = require('./config/config');
+const config = require('../config/config');
 
 aws.config.update({
   secretAccessKey: config.aws.secretAccessKey,
