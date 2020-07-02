@@ -24,9 +24,10 @@ const upload = multer({
     },
     key: function (req, file, cb) {
       const filename = req.user._id + '.' + file.originalname.split('.').pop();
-      cb(null, filename);
+      cb(null, 'avatars' + "/" + filename);
     }
-  })
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 }
 })
 
 const usersCtrl = require('../controllers/users.controller');

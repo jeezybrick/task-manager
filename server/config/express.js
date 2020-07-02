@@ -79,5 +79,14 @@ app.use((err, req, res, next) => {
   next(err);
 });
 
+app.use(errorHandler);
+
+function errorHandler(err, req, res, next) {
+  console.log(err);
+  if(err.code === 'LIMIT_FILE_SIZE') {
+    res.status(400);
+  }
+}
+
 
 module.exports = app;
