@@ -3,18 +3,42 @@ const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 const multer  = require('multer');
+const multerS3 = require('multer-s3');
+const aws = require('aws-sdk');
 const path = require('path');
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../avatars'))
-  },
-  filename: function (req, file, cb) {
-    const filename = req.user._id + '.' + file.originalname.split('.').pop();
-    cb(null, filename)
-  }
-})
+const s3 = new aws.S3();
 
-const upload = multer({ storage });
+aws.config.update({
+  secretAccessKey: 'KNOnkVIArpxYePaNzeVm3Ia8tUtaVlBYXdWAXxHy',
+  accessKeyId: 'AKIAJSVFHIBFSST6TUAA',
+  // region: 'us-east-1'
+});
+
+
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, path.join(__dirname, '../avatars'))
+//   },
+//   filename: function (req, file, cb) {
+//     const filename = req.user._id + '.' + file.originalname.split('.').pop();
+//     cb(null, filename)
+//   }
+// })
+
+
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'ionic-public',
+    metadata: function (req, file, cb) {
+      cb(null, {fieldName: file.fieldname});
+    },
+    key: function (req, file, cb) {
+      const filename = req.user._id + '.' + file.originalname.split('.').pop();
+      cb(null, filename);
+    }
+  })
+})
 
 const usersCtrl = require('../controllers/users.controller');
 

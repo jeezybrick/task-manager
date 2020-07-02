@@ -32,7 +32,7 @@ router.post('/login', (req, res, next) => {
   passport.authenticate('local', {session: false}, (err, user, info) => {
     // если нет такого пользователя - возвращаем ошибку
     if (!user) {
-      return res.status(401).send({message: 'Невірний email або пароль'});
+      return res.status(404).send({message: 'Невірний email або пароль'});
     }
     req.user = user;
     next();

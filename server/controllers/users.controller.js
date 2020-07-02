@@ -29,9 +29,7 @@ function getUserDetails(req, res) {
 }
 
 function uploadAvatar(req, res) {
-  const fullUrl = req.protocol + '://' + req.get('host') + '/avatars/' + req.user._id + '.' + req.file.originalname.split('.').pop();
-
-  User.findOneAndUpdate({_id: req.user._id}, {avatar: fullUrl}, {upsert: false, new: true})
+  User.findOneAndUpdate({_id: req.user._id}, {avatar: req.file.location}, {upsert: false, new: true})
     .exec((err, user) => {
       if (err) {
         res.status(403).send({email: 'Такой email уже существует'});
