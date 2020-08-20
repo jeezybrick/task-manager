@@ -27,7 +27,7 @@
     "@angular/router": "^9.1.2",
     "angular-pipes": "^9.0.2",
     "angular-tree-component": "^8.3.0",
-    "bcrypt": "^3.0.2",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.18.2",
     "compression": "^1.7.2",
     "cookie-parser": "^1.4.3",
