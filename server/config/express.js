@@ -39,7 +39,7 @@ app.use(methodOverride());
 app.use(helmet());
 
 // enable CORS - Cross Origin Resource Sharing
-const whitelist = ['http://localhost:8100', 'https://ionicfirst.herokuapp.com']
+const whitelist = ['http://localhost:4200', 'http://localhost:8100', 'https://ionicfirst.herokuapp.com']
 const corsOptionsDelegate = function (req, callback) {
   let corsOptions;
   if (whitelist.indexOf(req.header('Origin')) !== -1) {

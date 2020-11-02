@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const Board = require('../models/board.model');
-const Card = require('../models/card.model');
 const Schema = mongoose.Schema;
 
 const ColumnSchema = Schema({

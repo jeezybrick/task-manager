@@ -7,6 +7,11 @@ const BoardSchema = Schema({
   notifiedUsers: [{ type: Schema.Types.ObjectId, ref: 'User', required: false}],
   owner: { type: Schema.Types.ObjectId, ref: 'User', required: true},
   columns: [{ type: Schema.Types.ObjectId, ref: 'Column' }],
+  type: {
+    type: String,
+    enum : ['', 'scrum', 'kanban', 'waterflow'],
+    default: '',
+  },
   name: {
     type: String,
     required: true,

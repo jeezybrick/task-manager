@@ -55,7 +55,6 @@ function getBoardDetail(req, res) {
 
 // сохранение колонки в БД
 async function saveColumn(req, res) {
-
   // сохраняем в переменную данные с фронт энда + владельца колонки и ее доску
   const columnData = {...req.body, owner: req.user._id, board: req.params.boardId};
 
@@ -69,7 +68,11 @@ async function saveColumn(req, res) {
   await Board.findOneAndUpdate({_id: req.params.boardId}, {$push: {columns: savedColumn._id}});
 
   // возвращаем сохраненную колонку
-  res.json(savedColumn);
+  if(res) {
+    res.json(savedColumn);
+  } else {
+    return savedColumn;
+  }
 
 }
 
@@ -119,8 +122,10 @@ async function removeBoard(req, res) {
 }
 
 // создание доски
-function createBoard(req, res) {
+async function createBoard(req, res) {
   const users = req.body.users || [];
+  const type = req.body.type;
+
   // в req.body - данные,присланные с фронт энда + добавляем текущего пользователя как user
   const boardData = {
     ...req.body,
@@ -131,14 +136,21 @@ function createBoard(req, res) {
   };
   // засовываем данные в модель
   const newBoard = new Board(boardData);
+  let savedBoard = await newBoard.save();
 
-  // сохраняем данные в БД
-  newBoard.save((err, board) => {
-    if (err) {
-       res.status(403).send({message: errorMessage});
-    }
-    res.json(board);
-  });
+  if (type) {
+    await addColumnsByBoardType(savedBoard.type, savedBoard._id, req.user._id);
+    savedBoard = await Board.findById(savedBoard._id)
+        .populate({
+          path: 'columns',
+          populate: {path: 'cards', options: {sort: 'position'}}
+        })
+        .populate({
+          path: 'users',
+        });
+  }
+
+  res.json(savedBoard);
 
 }
 
@@ -168,6 +180,27 @@ function getColumns(req, res) {
       res.json(board.columns);
     });
 
+}
+
+async function addColumnsByBoardType(boardType, boardId, userId) {
+  let columnsNames = [];
+
+  switch (boardType) {
+    case 'scrum':
+      columnsNames = ['Резерв', 'До роботи', 'У роботі', 'Заблоковано', 'Тест', 'Виконано'];
+      break;
+    case 'kanban':
+      columnsNames = ['Резерв', 'До роботи', 'У роботі', 'Заблоковано', 'Тест', 'Виконано'];
+      break;
+    case 'waterflow':
+      columnsNames = ['Резерв', 'До роботи', 'У роботі', 'Тест', 'Виконано'];
+      break;
+  }
+
+  for (const columnName of columnsNames) {
+    const req = {body: {name: columnName}, user: {_id: userId, }, params: {boardId}}
+    await saveColumn(req);
+  }
 }
 
 // экспортируем функции для того,

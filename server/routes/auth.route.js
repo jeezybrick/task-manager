@@ -18,9 +18,11 @@ router.post('/register', asyncHandler(async (req, res, next) => {
   // проверяем есть ли уже пользователь с таким email
   const user = await userCtrl.findByEmail(req.body.email);
 
+  console.log(user);
+
 
   if (user) {
-    return res.status(401).send({message: 'Користувач с таким email вже існує'});
+    return res.status(404).send({message: 'Користувач с таким email вже існує'});
   }
 
   next();
