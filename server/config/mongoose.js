@@ -8,13 +8,12 @@ const config = require('./config');
 const mongoUri = config.mongo.host;
 mongoose.connect(mongoUri, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
-  authSource:"admin",
-  ssl: true,
-});
-mongoose.connection.on('error', () => {
-  throw new Error(`unable to connect to database: ${mongoUri}`);
-});
+}).then( () => {
+  console.log('Connected to database ')
+})
+  .catch( (err) => {
+    console.error(`Error connecting to the database. \n${err}`);
+  })
 
 // print mongoose logs in dev env
 if (config.MONGOOSE_DEBUG) {
